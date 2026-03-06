@@ -415,9 +415,25 @@ const Contact = ({ navigate }) => {
     const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' });
     const [formSuccess, setFormSuccess] = useState(false);
 
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+
+        // Construir el cuerpo del correo con los datos del formulario
+        const subject = encodeURIComponent(`Nuevo contacto desde sitio web: ${formData.name}`);
+        const body = encodeURIComponent(
+            `Nombre: ${formData.name}\n` +
+            `Empresa: ${formData.company}\n` +
+            `Correo: ${formData.email}\n` +
+            `Teléfono: ${formData.phone}\n\n` +
+            `Mensaje/Contexto:\n${formData.message}`
+        );
+
+        // Abrir el cliente de correo predeterminado
+        window.location.href = `mailto:${companyData.contactEmail}?subject=${subject}&body=${body}`;
+
+        // Mostrar éxito en la UI
         setFormSuccess(true);
         setFormData({ name: '', company: '', email: '', phone: '', message: '' });
 
@@ -425,8 +441,6 @@ const Contact = ({ navigate }) => {
             setFormSuccess(false);
         }, 5000);
     };
-
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     return (
         <div className="animate-in fade-in duration-700">
