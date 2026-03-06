@@ -45,11 +45,11 @@ export const emmaProductData = {
     scope: {
         title: "Alcance de la implementación base",
         items: [
-            { title: 'Configuración arquitectónica', desc: 'Setup inicial del entorno y conexión del canal base.' },
-            { title: 'Diseño del flujo de atención', desc: 'Definición de respuestas, acciones y reglas del servicio inicial.' },
-            { title: 'Fase de pruebas (Sandbox)', desc: 'Validación controlada del comportamiento antes de salir a operación.' },
-            { title: 'Puesta en marcha (Go-live)', desc: 'Salida a producción con monitoreo activo del flujo.' },
-            { title: 'Transferencia de conocimiento', desc: 'Entrega de guía operativa para el equipo que supervisa la atención.' }
+            { title: 'Preparación inicial', desc: 'Configuración base del servicio y activación del canal principal.' },
+            { title: 'Diseño del flujo de atención', desc: 'Definición de respuestas, acciones y criterios del servicio inicial.' },
+            { title: 'Pruebas controladas', desc: 'Validación del funcionamiento antes de salir a operación.' },
+            { title: 'Salida a operación', desc: 'Activación en entorno real con monitoreo cercano.' },
+            { title: 'Guía para tu equipo', desc: 'Entrega de lineamientos para supervisar y operar el servicio con claridad.' }
         ]
     },
     outOfScope: {
