@@ -1,18 +1,18 @@
 export const productsPageData = {
     header: {
         title: "Nuestros Productos",
-        description: "Soluciones modulares impulsadas por IA, diseñadas para integrarse sin fricción y resolver desafíos específicos en operaciones de servicio y salud."
+        description: "Productos de IA diseñados para operar flujos críticos con control, integración limpia y una experiencia de alto nivel."
     },
     products: [
         {
             id: "emma",
             badge: "Servicio al Cliente",
             title: "EMMA ServiceOps",
-            description: "Agentes de IA para servicio al cliente y automatización con supervisión humana.",
+            description: "Agente de servicio al cliente para WhatsApp y web, con automatización asistida y supervisión humana.",
             features: [
-                "Respuestas consistentes y resolutivas.",
-                "Escalado inteligente a agentes humanos.",
-                "Rápida puesta en marcha en semanas."
+                "Atiende, informa y agenda con criterio operativo.",
+                "Ejecuta acciones dentro de reglas claras.",
+                "Escala al equipo cuando el caso lo exige."
             ],
             buttonText: "Ver arquitectura e implementación"
         },
@@ -20,44 +20,44 @@ export const productsPageData = {
             id: "medshift",
             badge: "Sector Salud",
             title: "MedShift Optimizer",
-            description: "SaaS inteligente para gestión de agenda y turnos por médico activo.",
+            description: "SaaS para programación de turnos y agenda médica con reglas operativas y control recurrente.",
             features: [
-                "Optimización matemática de agenda médica.",
-                "Gestión avanzada de reglas de programación.",
-                "Facturación predecible y transparente."
+                "Optimiza la programación de médicos activos.",
+                "Ordena reglas, restricciones y cobertura clínica.",
+                "Modelo de cobro simple y predecible."
             ],
             buttonText: "Ver características del SaaS"
         }
     ],
     upcoming: {
         title: "Nuevos modelos en entrenamiento",
-        description: "Nuestro equipo de ingeniería trabaja continuamente desarrollando nuevas soluciones para expandir las capacidades operativas mediante IA generativa."
+        description: "Seguimos desarrollando nuevas capacidades para ampliar la operación asistida por IA con el mismo estándar de control, claridad y diseño."
     }
 };
 
 export const emmaProductData = {
     header: {
         badge: "EMMA ServiceOps",
-        title: "Automatización híbrida para servicio al cliente.",
-        description: "Agentes de IA capaces de resolver interacciones complejas, diseñados para trabajar con supervisión humana.",
+        title: "El agente que opera tu servicio al cliente.",
+        description: "Atiende en WhatsApp y web, entrega información, agenda y ejecuta acciones dentro de reglas claras y supervisión humana.",
         buttonText: "Solicitar demostración técnica"
     },
     scope: {
         title: "Alcance de la implementación base",
         items: [
-            { title: 'Configuración arquitectónica', desc: 'Setup inicial del entorno y conexión de canales base.' },
-            { title: 'Diseño de flujos cognitivos', desc: 'Configuración del comportamiento de la IA y reglas de negocio iniciales.' },
-            { title: 'Fase de pruebas (Sandbox)', desc: 'Validación controlada de respuestas y mitigación de alucinaciones.' },
-            { title: 'Puesta en marcha (Go-live)', desc: 'Despliegue a producción con monitoreo activo.' },
-            { title: 'Transferencia de conocimiento', desc: 'Entrega de guía operativa para el equipo de supervisión humana.' }
+            { title: 'Configuración arquitectónica', desc: 'Setup inicial del entorno y conexión del canal base.' },
+            { title: 'Diseño del flujo de atención', desc: 'Definición de respuestas, acciones y reglas del servicio inicial.' },
+            { title: 'Fase de pruebas (Sandbox)', desc: 'Validación controlada del comportamiento antes de salir a operación.' },
+            { title: 'Puesta en marcha (Go-live)', desc: 'Salida a producción con monitoreo activo del flujo.' },
+            { title: 'Transferencia de conocimiento', desc: 'Entrega de guía operativa para el equipo que supervisa la atención.' }
         ]
     },
     outOfScope: {
         title: "Fuera del alcance base",
         items: [
-            'Desarrollos ilimitados a medida o reentrenamiento de LLMs base.',
+            'Desarrollos ilimitados a medida o reentrenamiento de modelos base.',
             'Integraciones complejas con sistemas legados no documentados.',
-            'Costos de licencias de APIs de terceros (OpenAI, Anthropic, etc. si aplica distinto al core).'
+            'Licencias o consumos de terceros no incluidos en el alcance acordado.'
         ]
     },
     pricing: {
@@ -65,13 +65,13 @@ export const emmaProductData = {
         setup: {
             label: "Setup Arquitectónico Único",
             price: "COP 2.500.000",
-            description: "Facturación: 50% al inicio de la configuración, 50% en el hito de Go-live."
+            description: "Facturación: 50% al inicio de la configuración y 50% en el hito de Go-live."
         },
         monthly: {
             label: "Mantenimiento y Suscripción",
             price: "USD 30",
             period: "/ mes",
-            description: "Cubre mantenimiento evolutivo base, hosting de la arquitectura y soporte estándar."
+            description: "Incluye mantenimiento evolutivo base, operación de la arquitectura y soporte estándar."
         },
         buttonText: "Iniciar evaluación"
     }
@@ -80,33 +80,33 @@ export const emmaProductData = {
 export const medshiftProductData = {
     header: {
         badge: "MedShift Optimizer",
-        title: "Inteligencia en la gestión hospitalaria.",
-        description: "SaaS especializado para la optimización de agenda médica y programación de turnos asistida por algoritmos.",
+        title: "Programación médica con más control y menos fricción.",
+        description: "SaaS especializado para organizar agenda y turnos médicos con lógica operativa clara.",
         buttonText: "Solicitar información comercial"
     },
     details: {
         title: "Software de turnos médicos y optimización de agenda",
-        description: "Nuestra plataforma en la nube procesa variables complejas para facilitar la programación de turnos de manera eficiente, reduciendo drásticamente los conflictos y asegurando una cobertura clínica óptima en tu centro de salud.",
+        description: "Una plataforma en la nube para programar médicos, ordenar restricciones y facilitar una operación más estable, clara y eficiente.",
         featuresTitle: "Funcionalidades core del SaaS",
         features: [
-            'Acceso continuo a plataforma SaaS en alta disponibilidad.',
-            'Gestión integral del directorio de profesionales médicos.',
+            'Acceso continuo a la plataforma SaaS.',
+            'Gestión del directorio de profesionales médicos.',
             'Motor de programación y visualización de agenda.',
-            'Configuración de reglas de negocio y restricciones de turno.',
-            'Soporte técnico estándar y actualizaciones automáticas.'
+            'Configuración de reglas operativas y restricciones.',
+            'Soporte técnico estándar y actualizaciones base.'
         ]
     },
     outOfScope: {
         title: "Exclusiones del servicio SaaS",
         items: [
             'Servicios de implementación consultiva in situ.',
-            'Migración de datos históricos desde sistemas no estructurados.',
-            'Integraciones a medida con sistemas HIS/EHR legados.'
+            'Migración de históricos desde fuentes no estructuradas.',
+            'Integraciones a medida con sistemas HIS o EHR legados.'
         ]
     },
     pricing: {
         title: "Licenciamiento elástico",
-        description: "Paga exclusivamente por los profesionales activos programados en el sistema. Optimización sin costos fijos prohibitivos.",
+        description: "Pagas por médico activo programado en el sistema, con una estructura simple y transparente.",
         perUser: {
             label: "Costo por Médico Activo",
             price: "COP 29.900",
