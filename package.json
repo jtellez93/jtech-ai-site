@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://jtellez93.github.io/jtech-ai-site/",
+  "homepage": "https://www.jtsoluciones.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
