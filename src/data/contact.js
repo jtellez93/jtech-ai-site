@@ -1,24 +1,24 @@
 export const contactData = {
     header: {
         title: "Iniciemos la conversación.",
-        description: "Nuestros ingenieros y consultores están listos para analizar su operación y determinar el impacto real que la IA puede generar en su negocio."
+        description: "Cuéntanos qué proceso quieres mejorar y te ayudaremos a evaluar dónde la IA puede generar más impacto, con criterio operativo y expectativas claras."
     },
     form: {
         successTitle: "Recepción confirmada",
-        successMessage: "Hemos registrado su solicitud en nuestro sistema. Un especialista de JTECH AI se comunicará con usted a la brevedad.",
+        successMessage: "Recibimos tu solicitud correctamente. El equipo de JTECH AI la revisará y te contactará para entender el contexto y definir el siguiente paso.",
         labels: {
             name: "Nombre completo",
-            namePlaceholder: "Ej. Caro Pérez",
+            namePlaceholder: "Ej. Eva Téllez",
             company: "Organización",
             companyPlaceholder: "Nombre de su empresa",
             email: "Correo corporativo",
-            emailPlaceholder: "ana@empresa.com",
+            emailPlaceholder: "eva@empresa.com",
             phone: "Teléfono de contacto",
             phonePlaceholder: "+57 300 000 0000",
             message: "Contexto de su operación",
-            messagePlaceholder: "Describa brevemente el proceso que busca optimizar..."
+            messagePlaceholder: "Cuéntanos qué proceso quieres optimizar, qué ocurre hoy y qué resultado esperas lograr..."
         },
-        disclaimerPref: "Al enviar este formulario, usted acepta los términos de nuestra ",
+        disclaimerPref: "Al enviar este formulario, aceptas nuestra ",
         disclaimerLinkText: "Política de Privacidad",
         disclaimerPost: ".",
         submitButton: "Enviar solicitud"

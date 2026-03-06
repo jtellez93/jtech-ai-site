@@ -10,9 +10,9 @@ export const homeData = {
     valueProposition: {
         title: "Nuestra propuesta de valor",
         items: [
-            { icon: "ShieldCheck", title: "Automatización con control", desc: "No delegamos a ciegas. Nuestras soluciones mantienen a tu equipo informado y al mando, usando la IA para potenciar, no reemplazar." },
-            { icon: "Clock", title: "Implementación rápida", desc: "Evitamos proyectos interminables. Nos enfocamos en alcances definidos que entregan valor en semanas, no en meses." },
-            { icon: "Database", title: "Trazabilidad y gobernanza", desc: "Cada acción asistida por IA queda registrada. Mantenemos el cumplimiento y la seguridad de tus datos como prioridad absoluta." }
+            { icon: "ShieldCheck", title: "Automatización con control", desc: "Diseñamos flujos asistidos por IA con reglas claras, supervisión humana y control operativo real." },
+            { icon: "Clock", title: "Implementación ágil", desc: "Trabajamos con alcances definidos para llevar soluciones a operación en semanas y generar valor medible desde el inicio." },
+            { icon: "Database", title: "Trazabilidad y gobernanza", desc: "Cada flujo se estructura con trazabilidad, criterios de seguridad y una operación más ordenada y confiable." }
         ]
     },
     productsOverview: {

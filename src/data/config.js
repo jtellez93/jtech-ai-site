@@ -28,7 +28,7 @@ export const companyData = {
     phone: "+57 (319) 496-1967",
     phoneNumeric: "+573194961967",
     schedule: "Lunes a Viernes\n09:00 - 16:00 (COT)",
-    footerDescription: "Arquitectos de procesos asistidos con Inteligencia Artificial. Operaciones autónomas que exigen control, trazabilidad absoluta y resultados matemáticos.",
+    footerDescription: "Ayudamos a empresas a automatizar operaciones con IA, reducir fricción y lograr resultados medibles.",
     copyrightYear: new Date().getFullYear(),
     legalInfo: "[TODO_DATOS_LEGALES_EMPRESA]",
     legalFramework: "[TODO_MARCO_NORMATIVO_POR_PAIS]"
