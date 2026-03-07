@@ -1,15 +1,49 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, CheckCircle, ArrowRight, ShieldCheck, Mail, Phone, Clock, FileText, Database, ChevronRight, Sparkles } from 'lucide-react';
+import { Menu, X, CheckCircle, ArrowRight, ShieldCheck, Mail, Phone, Clock, FileText, Database, ChevronRight, Sparkles, Loader2, Cpu } from 'lucide-react';
 
 // Importando los datos de configuración
 import { routes, seoData, companyData } from './data/config';
 import { homeData } from './data/home';
 import { productsPageData, emmaProductData, medshiftProductData } from './data/products';
 import { contactData } from './data/contact';
+import { diagnosticData } from './data/diagnostic';
 import { termsData, privacyData, dataDeletionData } from './data/legal';
 
 // Mapa de íconos para poder renderizarlos desde texto
 const Icons = { Menu, X, CheckCircle, ArrowRight, ShieldCheck, Mail, Phone, Clock, FileText, Database, ChevronRight, Sparkles };
+
+// --- API OPENAI HELPER ---
+const callOpenAIWithRetry = async (payload, retries = 5, delay = 1000) => {
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    const modelId = import.meta.env.VITE_OPENAI_MODEL || 'gpt-4o-mini';
+    const url = 'https://api.openai.com/v1/chat/completions';
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: modelId,
+                messages: payload.messages
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        if (retries > 0) {
+            await new Promise(res => setTimeout(res, delay));
+            return callOpenAIWithRetry(payload, retries - 1, delay * 2);
+        }
+        throw error;
+    }
+};
 
 // --- COMPONENTES DE ANIMACIÓN Y UI (ESTILO APPLE / AI) ---
 const Reveal = ({ children, delay = 0, className = "" }) => {
@@ -41,20 +75,20 @@ const Reveal = ({ children, delay = 0, className = "" }) => {
     );
 };
 
-const Button = ({ children, variant = 'primary', className = '', onClick, href, type = 'button' }) => {
-    const baseStyle = "inline-flex items-center justify-center px-6 py-3 font-medium rounded-full transition-all duration-300 focus:outline-none";
+const Button = ({ children, variant = 'primary', className = '', onClick, href, type = 'button', disabled = false }) => {
+    const baseStyle = "inline-flex items-center justify-center px-6 py-3 font-medium rounded-full transition-all duration-300 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed";
 
-    // Estilos futuristas
     const variants = {
-        primary: "bg-white text-black hover:bg-slate-200 hover:scale-[1.02] shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]",
-        secondary: "bg-white/5 text-white border border-white/10 hover:bg-white/10 backdrop-blur-md hover:scale-[1.02]",
-        outline: "bg-transparent text-white border border-white/20 hover:bg-white/5 hover:border-white/40 backdrop-blur-sm"
+        primary: "bg-white text-black hover:bg-slate-200 hover:scale-[1.02] shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] disabled:hover:scale-100",
+        secondary: "bg-white/5 text-white border border-white/10 hover:bg-white/10 backdrop-blur-md hover:scale-[1.02] disabled:hover:scale-100",
+        outline: "bg-transparent text-white border border-white/20 hover:bg-white/5 hover:border-white/40 backdrop-blur-sm",
+        magic: "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-500 hover:to-purple-500 shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] hover:scale-[1.02] border border-white/10 disabled:hover:scale-100"
     };
 
     const classes = `${baseStyle} ${variants[variant]} ${className}`;
 
     if (href && !href.startsWith('http') && !href.startsWith('mailto')) {
-        return <button type={type} onClick={onClick} className={classes}>{children}</button>;
+        return <button type={type} onClick={onClick} disabled={disabled} className={classes}>{children}</button>;
     }
 
     if (href) {
@@ -65,7 +99,7 @@ const Button = ({ children, variant = 'primary', className = '', onClick, href, 
         );
     }
     return (
-        <button type={type} onClick={onClick} className={classes}>
+        <button type={type} onClick={onClick} disabled={disabled} className={classes}>
             {children}
         </button>
     );
@@ -93,9 +127,10 @@ const Home = ({ navigate }) => (
         <Section className="min-h-screen flex items-center pt-32">
             <div className="max-w-5xl mx-auto text-center">
                 <Reveal>
-                    <div className="inline-flex items-center px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
+                    <div className="inline-flex items-center px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md mb-8 cursor-pointer hover:bg-blue-500/20 transition-colors" onClick={() => navigate(routes.DIAGNOSTIC)}>
                         <Sparkles className="h-4 w-4 text-blue-400 mr-2" />
-                        <span className="text-sm font-medium text-slate-300">{homeData.hero.badge}</span>
+                        <span className="text-sm font-medium text-blue-200">{homeData.hero.badge}</span>
+                        <ChevronRight className="h-4 w-4 text-blue-400 ml-1" />
                     </div>
                 </Reveal>
 
@@ -411,6 +446,135 @@ const ProductMedshift = ({ navigate }) => (
     </div>
 );
 
+// --- PLATAFORMA DE DIAGNÓSTICO IA ---
+const Diagnostic = ({ navigate }) => {
+    const [problemDesc, setProblemDesc] = useState('');
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [result, setResult] = useState(null);
+    const [error, setError] = useState(null);
+
+    const handleAnalyze = async () => {
+        if (!problemDesc.trim()) return;
+
+        setIsAnalyzing(true);
+        setResult(null);
+        setError(null);
+
+        const payload = {
+            messages: [
+                { role: "system", content: diagnosticData.systemInstruction },
+                { role: "user", content: `El desafío operativo de mi empresa es: "${problemDesc}"` }
+            ]
+        };
+
+        try {
+            const data = await callOpenAIWithRetry(payload);
+            const textResponse = data.choices?.[0]?.message?.content;
+            if (textResponse) {
+                setResult(textResponse);
+            } else {
+                throw new Error("Respuesta inválida de la IA");
+            }
+        } catch (err) {
+            console.error("Error calling AI:", err);
+            setError(diagnosticData.errorMessage);
+        } finally {
+            setIsAnalyzing(false);
+        }
+    };
+
+    return (
+        <div className="animate-in fade-in duration-700">
+            <Section className="pt-32 pb-16">
+                <Reveal className="max-w-4xl mx-auto text-center">
+                    <div className="inline-flex items-center px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 backdrop-blur-md mb-8">
+                        <Cpu className="h-4 w-4 text-purple-400 mr-2" />
+                        <span className="text-sm font-medium text-purple-200">{diagnosticData.badge}</span>
+                    </div>
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-8">
+                        {diagnosticData.titlePrefix} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">{diagnosticData.titleHighlight}</span>
+                    </h1>
+                    <p className="text-xl md:text-2xl text-slate-400 font-light leading-relaxed mb-12">
+                        {diagnosticData.description}
+                    </p>
+                </Reveal>
+
+                <Reveal delay={200} className="max-w-3xl mx-auto">
+                    <GlassCard className="relative overflow-hidden">
+                        {isAnalyzing && (
+                            <div className="absolute inset-0 bg-blue-500/5 animate-pulse rounded-3xl z-0 pointer-events-none"></div>
+                        )}
+
+                        <div className="relative z-10 space-y-6">
+                            <label htmlFor="problem" className="block text-lg font-medium text-white">{diagnosticData.inputLabel}</label>
+                            <textarea
+                                id="problem"
+                                rows="4"
+                                value={problemDesc}
+                                onChange={(e) => setProblemDesc(e.target.value)}
+                                disabled={isAnalyzing}
+                                className="w-full px-6 py-5 bg-black/60 border border-white/10 rounded-2xl text-white focus:ring-1 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all placeholder:text-slate-600 resize-y text-lg"
+                                placeholder={diagnosticData.inputPlaceholder}
+                            />
+
+                            <div className="flex justify-end pt-2">
+                                <Button variant="magic" onClick={handleAnalyze} disabled={isAnalyzing || !problemDesc.trim()} className="px-8 py-4">
+                                    {isAnalyzing ? (
+                                        <>
+                                            <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                                            {diagnosticData.buttonProcessing}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Sparkles className="mr-3 h-5 w-5" />
+                                            {diagnosticData.buttonAnalyze}
+                                        </>
+                                    )}
+                                </Button>
+                            </div>
+                        </div>
+                    </GlassCard>
+                </Reveal>
+
+                {/* Resultados de la IA */}
+                {error && (
+                    <Reveal className="max-w-3xl mx-auto mt-8">
+                        <div className="bg-red-500/10 border border-red-500/30 text-red-200 rounded-2xl p-6 text-center">
+                            {error}
+                        </div>
+                    </Reveal>
+                )}
+
+                {result && !isAnalyzing && (
+                    <Reveal className="max-w-3xl mx-auto mt-12">
+                        <GlassCard className="border-purple-500/30 bg-purple-900/10 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+
+                            <div className="flex items-center mb-6">
+                                <div className="bg-gradient-to-r from-blue-500 to-purple-500 p-2 rounded-lg mr-4 shadow-lg shadow-purple-500/20">
+                                    <Sparkles className="h-6 w-6 text-white" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white tracking-tight">{diagnosticData.resultTitle}</h3>
+                            </div>
+
+                            <div className="space-y-6 text-slate-300 font-light text-lg leading-relaxed relative z-10">
+                                {result.split('\n\n').map((paragraph, index) => (
+                                    <p key={index}>{paragraph}</p>
+                                ))}
+                            </div>
+
+                            <div className="mt-10 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
+                                <p className="text-sm text-slate-400 font-light">{diagnosticData.ctaText}</p>
+                                <Button variant="primary" onClick={() => navigate(routes.CONTACT)}>{diagnosticData.ctaButton}</Button>
+                            </div>
+                        </GlassCard>
+                    </Reveal>
+                )}
+            </Section>
+        </div>
+    );
+};
+
 const Contact = ({ navigate }) => {
     const [formData, setFormData] = useState({ name: '', company: '', email: '', phone: '', message: '' });
     const [formSuccess, setFormSuccess] = useState(false);
@@ -678,11 +842,12 @@ export default function App() {
         setCurrentPath(path);
     };
 
-    const NavLink = ({ href, children }) => (
+    const NavLink = ({ href, children, isSpecial = false }) => (
         <button
             onClick={() => navigate(href)}
-            className={`text-sm font-medium transition-colors duration-300 ${currentPath === href ? 'text-white' : 'text-slate-400 hover:text-white'}`}
+            className={`text-sm font-medium transition-colors duration-300 flex items-center ${currentPath === href ? 'text-white' : 'text-slate-400 hover:text-white'} ${isSpecial ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 hover:from-blue-300 hover:to-purple-300' : ''}`}
         >
+            {isSpecial && <Sparkles className="w-3.5 h-3.5 mr-1.5 text-blue-400" />}
             {children}
         </button>
     );
@@ -709,6 +874,7 @@ export default function App() {
                         <nav className="hidden md:flex space-x-10 items-center">
                             <NavLink href={routes.HOME}>Inicio</NavLink>
                             <NavLink href={routes.PRODUCTS}>Tecnología</NavLink>
+                            <NavLink href={routes.DIAGNOSTIC} isSpecial={true}>Hablar con EMMA</NavLink>
                             <NavLink href={routes.CONTACT}>Contacto</NavLink>
                             <Button onClick={() => navigate(routes.CONTACT)} variant="secondary" className="px-5 py-2 text-sm">
                                 Agendar Demo
@@ -734,6 +900,9 @@ export default function App() {
                         <div className="px-6 pt-4 pb-8 space-y-6 flex flex-col">
                             <button onClick={() => navigate(routes.HOME)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.HOME ? 'text-white' : 'text-slate-500'}`}>Inicio</button>
                             <button onClick={() => navigate(routes.PRODUCTS)} className={`text-left text-2xl font-bold tracking-tight ${currentPath.startsWith(routes.PRODUCTS) ? 'text-white' : 'text-slate-500'}`}>Tecnología</button>
+                            <button onClick={() => navigate(routes.DIAGNOSTIC)} className={`text-left text-2xl font-bold tracking-tight flex items-center ${currentPath === routes.DIAGNOSTIC ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500' : 'text-slate-500'}`}>
+                                <Sparkles className={`w-5 h-5 mr-3 ${currentPath === routes.DIAGNOSTIC ? 'text-blue-400' : 'text-slate-500'}`} /> Hablar con EMMA
+                            </button>
                             <button onClick={() => navigate(routes.CONTACT)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.CONTACT ? 'text-white' : 'text-slate-500'}`}>Contacto</button>
                         </div>
                     </div>
@@ -747,6 +916,7 @@ export default function App() {
                 {currentPath === routes.PRODUCT_EMMA && <ProductEmma navigate={navigate} />}
                 {currentPath === routes.PRODUCT_MEDSHIFT && <ProductMedshift navigate={navigate} />}
                 {currentPath === routes.CONTACT && <Contact navigate={navigate} />}
+                {currentPath === routes.DIAGNOSTIC && <Diagnostic navigate={navigate} />}
                 {currentPath === routes.TERMS && <Terms />}
                 {currentPath === routes.PRIVACY && <Privacy />}
                 {currentPath === routes.DATA_DELETION && <DataDeletion />}
@@ -777,6 +947,7 @@ export default function App() {
                             <ul className="space-y-4 text-sm font-light text-slate-400">
                                 <li><button onClick={() => navigate(routes.HOME)} className="hover:text-white transition-colors">Inicio</button></li>
                                 <li><button onClick={() => navigate(routes.PRODUCTS)} className="hover:text-white transition-colors">Portafolio Tecnológico</button></li>
+                                <li><button onClick={() => navigate(routes.DIAGNOSTIC)} className="hover:text-white transition-colors flex items-center"><Sparkles className="w-3 h-3 mr-1.5 text-blue-400" /> Hablar con EMMA</button></li>
                                 <li><button onClick={() => navigate(routes.CONTACT)} className="hover:text-white transition-colors">Ventas y Contacto</button></li>
                             </ul>
                         </div>

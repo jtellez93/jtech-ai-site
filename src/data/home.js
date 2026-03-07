@@ -1,6 +1,6 @@
 export const homeData = {
     hero: {
-        badge: "El futuro de las operaciones",
+        badge: "Habla con EMMA, nuestra IA consultora",
         titlePrefix: "Inteligencia Artificial",
         titleHighlight: "para operaciones.",
         description: "En JTECH AI SOLUTIONS convertimos procesos manuales en flujos asistidos con IA. Implementación rápida, control total y resultados medibles.",
@@ -37,7 +37,7 @@ export const homeData = {
     methodology: {
         title: "Metodología de implementación",
         steps: [
-            { step: "01", title: "Diagnóstico profundo", desc: "Entendemos tu proceso actual, identificamos cuellos de botella y definimos si la IA es verdaderamente la solución adecuada." },
+            { step: "01", title: "Análisis profundo", desc: "Entendemos tu proceso actual, identificamos cuellos de botella y definimos si la IA es verdaderamente la solución adecuada." },
             { step: "02", title: "Despliegue controlado", desc: "Implementamos la solución con un alcance base claro, realizando pruebas rigurosas antes de la puesta en marcha." },
             { step: "03", title: "Medición y evolución", desc: "Acompañamos el uso, medimos los resultados operativos y ajustamos los modelos según el comportamiento real." }
         ]
