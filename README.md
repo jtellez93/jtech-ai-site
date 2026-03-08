@@ -60,6 +60,7 @@ Toda la información ha sido centralizada en la carpeta `src/data/`. Dependiendo
 - `src/data/config.js`: Contiene la configuración global de la empresa (Nombre de la marca, números de teléfono, correos electrónicos corporativos, horarios y SEO de las páginas).
 - `src/data/home.js`: Contiene todos los textos que se ven en la página principal (Inicio), como la propuesta de valor y características operativas.
 - `src/data/products.js`: Contiene los detalles, beneficios, qué incluye y los **precios/licenciamientos** de EMMA y MedShift.
+- `src/data/demo.jsx`: Contiene los textos fijos para el **Simulador EMMA ServiceOps**, la configuración de velocidad de tipero, y los textos para el **Portal Demo de Medshift**.
 - `src/data/contact.js`: Textos y correos que se muestran en el formulario de contacto.
 - `src/data/legal.js`: Información densa correspondiente a los Términos y Condiciones, Políticas de Privacidad y Eliminación de datos.
 

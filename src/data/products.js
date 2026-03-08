@@ -40,7 +40,7 @@ export const emmaProductData = {
         badge: "EMMA ServiceOps",
         title: "El agente que opera tu servicio al cliente.",
         description: "Atiende en WhatsApp y web, entrega información, agenda y ejecuta acciones dentro de reglas claras y supervisión humana.",
-        buttonText: "Solicitar demostración técnica"
+        buttonText: "Ver Simulador ServiceOps"
     },
     scope: {
         title: "Alcance de la implementación base",
@@ -73,7 +73,7 @@ export const emmaProductData = {
             period: "/ mes",
             description: "Incluye mantenimiento evolutivo base, operación de la arquitectura y soporte estándar."
         },
-        buttonText: "Iniciar evaluación"
+        buttonText: "Ir al Simulador ServiceOps"
     }
 };
 
@@ -82,7 +82,7 @@ export const medshiftProductData = {
         badge: "MedShift Optimizer",
         title: "Programación médica con más control y menos fricción.",
         description: "SaaS especializado para organizar agenda y turnos médicos con lógica operativa clara.",
-        buttonText: "Solicitar información comercial"
+        buttonText: "Solicitar Acceso al Portal Demo"
     },
     details: {
         title: "Software de turnos médicos y optimización de agenda",
@@ -117,6 +117,6 @@ export const medshiftProductData = {
             price: "COP 149.500",
             description: "Mínimo operativo equivalente a 5 licencias activas."
         },
-        buttonText: "Contactar a ventas"
+        buttonText: "Solicitar Portal Demo"
     }
 };

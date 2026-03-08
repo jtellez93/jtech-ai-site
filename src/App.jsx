@@ -9,6 +9,8 @@ import { contactData } from './data/contact';
 import { diagnosticData } from './data/diagnostic';
 import { termsData, privacyData, dataDeletionData } from './data/legal';
 import { runEmmaDiagnostic } from './services/emmaDiagnostic';
+import WhatsAppDemo from './pages/WhatsAppDemo';
+import MedshiftDemo from './pages/MedshiftDemo';
 
 // Mapa de íconos para poder renderizarlos desde texto
 const Icons = { Menu, X, CheckCircle, ArrowRight, ShieldCheck, Mail, Phone, Clock, FileText, Database, ChevronRight, Sparkles };
@@ -269,7 +271,7 @@ const ProductEmma = ({ navigate }) => (
                 <p className="text-2xl text-slate-400 font-light leading-relaxed mb-10">
                     {emmaProductData.header.description}
                 </p>
-                <Button onClick={() => navigate(routes.CONTACT)}>{emmaProductData.header.buttonText}</Button>
+                <Button onClick={() => navigate(routes.DEMO_CHAT)}>{emmaProductData.header.buttonText}</Button>
             </Reveal>
         </Section>
 
@@ -328,7 +330,7 @@ const ProductEmma = ({ navigate }) => (
                                 <p className="text-slate-400 text-sm font-light">{emmaProductData.pricing.monthly.description}</p>
                             </div>
 
-                            <Button variant="primary" className="w-full" onClick={() => navigate(routes.CONTACT)}>{emmaProductData.pricing.buttonText}</Button>
+                            <Button variant="primary" className="w-full" onClick={() => navigate(routes.DEMO_CHAT)}>{emmaProductData.pricing.buttonText}</Button>
                         </GlassCard>
                     </Reveal>
                 </div>
@@ -346,7 +348,7 @@ const ProductMedshift = ({ navigate }) => (
                 <p className="text-2xl text-slate-400 font-light leading-relaxed mb-10">
                     {medshiftProductData.header.description}
                 </p>
-                <Button onClick={() => navigate(routes.CONTACT)}>{medshiftProductData.header.buttonText}</Button>
+                <Button onClick={() => navigate(routes.DEMO_MEDSHIFT)}>{medshiftProductData.header.buttonText}</Button>
             </Reveal>
         </Section>
 
@@ -405,7 +407,7 @@ const ProductMedshift = ({ navigate }) => (
                                 <p className="text-slate-500 text-sm font-light">{medshiftProductData.pricing.minimum.description}</p>
                             </div>
 
-                            <Button variant="primary" className="w-full" onClick={() => navigate(routes.CONTACT)}>{medshiftProductData.pricing.buttonText}</Button>
+                            <Button variant="primary" className="w-full" onClick={() => navigate(routes.DEMO_MEDSHIFT)}>{medshiftProductData.pricing.buttonText}</Button>
                         </GlassCard>
                     </Reveal>
                 </div>
@@ -415,7 +417,7 @@ const ProductMedshift = ({ navigate }) => (
 );
 
 // --- PLATAFORMA DE DIAGNÓSTICO IA ---
-const Diagnostic = ({ navigate }) => {
+const Diagnostic = ({ navigate, setGlobalDemoConfig, globalDemoConfig }) => {
     const [problemDesc, setProblemDesc] = useState('');
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState(null);
@@ -437,10 +439,11 @@ const Diagnostic = ({ navigate }) => {
         // 2. Local Rate Limiting Check (Frontend-side Bot Protection)
         const history = JSON.parse(localStorage.getItem('emma_usage_history') || '[]');
         const now = Date.now();
+        const maxRequests = parseInt(import.meta.env.VITE_MAX_HOURLY_DIAGNOSTICS) || 2;
         const recentRequests = history.filter(time => now - time < 3600000); // 1 hour window
 
-        if (recentRequests.length >= 2) {
-            setError("Has superado el límite de 2 diagnósticos gratuitos por hora. Déjanos tus datos en la sección de contacto para agendar una sesión.");
+        if (recentRequests.length >= maxRequests) {
+            setError(`Has superado el límite de ${maxRequests} diagnósticos gratuitos por hora. Déjanos tus datos en la sección de contacto para agendar una sesión.`);
             return;
         }
 
@@ -463,6 +466,11 @@ const Diagnostic = ({ navigate }) => {
         try {
             const data = await runEmmaDiagnostic(payload, controller.signal);
             setResult(data.result);
+            if (data.demoConfig) {
+                setGlobalDemoConfig(data.demoConfig);
+            } else {
+                setGlobalDemoConfig(null);
+            }
         } catch (err) {
             console.error("Error calling EMMA Backend:", err);
             if (err.name === 'AbortError') {
@@ -602,7 +610,7 @@ const Diagnostic = ({ navigate }) => {
                                 ))}
                             </div>
 
-                            {/* Botones de Acción Posterior (Idea 3) */}
+                            {/* Botones de Acción Posterior (Idea 3 y Demo) */}
                             <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
                                 <button
                                     onClick={handleCopy}
@@ -614,7 +622,10 @@ const Diagnostic = ({ navigate }) => {
                                         <><FileText className="w-4 h-4 mr-2" /> Copiar Resumen Ejecutivo</>
                                     )}
                                 </button>
-                                <Button variant="primary" onClick={() => navigate(routes.CONTACT)}>{diagnosticData.ctaButton}</Button>
+
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <Button variant="primary" onClick={() => navigate(routes.CONTACT)}>{diagnosticData.ctaButton}</Button>
+                                </div>
                             </div>
                         </GlassCard>
 
@@ -907,6 +918,7 @@ const DataDeletion = () => (
 export default function App() {
     const [currentPath, setCurrentPath] = useState(routes.HOME);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [globalDemoConfig, setGlobalDemoConfig] = useState(null);
 
     useEffect(() => {
         const handlePopState = () => {
@@ -916,11 +928,35 @@ export default function App() {
         return () => window.removeEventListener('popstate', handlePopState);
     }, []);
 
+    // Helper to safely compare paths, stripping trailing slashes and handling potential base paths 
+    // like /jtech-ai-site/ in GitHub Pages or dev environments.
+    const isPathMatch = (routePath, exact = true) => {
+        // Normalize the current path
+        let normalizedCurrent = currentPath.endsWith('/') && currentPath.length > 1 ? currentPath.slice(0, -1) : currentPath;
+        // Normalize the route path
+        let normalizedRoute = routePath.endsWith('/') && routePath.length > 1 ? routePath.slice(0, -1) : routePath;
+
+        // If we are on GitHub pages or a subpath (/jtech-ai-site), the current path might look like /jtech-ai-site/demo-chat
+        // We check if the current path ends with the route path, which works for both root and subdirectories.
+        if (normalizedRoute === routes.HOME) {
+            return normalizedCurrent === '/' || normalizedCurrent === '/jtech-ai-site' || normalizedCurrent === '/jtech-ai-site/';
+        }
+
+        if (exact) {
+            return normalizedCurrent === normalizedRoute || normalizedCurrent.endsWith(normalizedRoute);
+        } else {
+            return normalizedCurrent.includes(normalizedRoute);
+        }
+    };
+
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        const currentSeo = seoData[currentPath] || seoData[routes.HOME];
-        document.title = currentSeo.title;
+        // Find the matching SEO data
+        const currentSeoKey = Object.keys(routes).find(key => isPathMatch(routes[key]));
+        const currentSeo = currentSeoKey ? seoData[routes[currentSeoKey]] : seoData[routes.HOME];
+
+        document.title = currentSeo?.title || "JTECH AI SOLUTIONS";
 
         let metaDesc = document.querySelector('meta[name="description"]');
         if (!metaDesc) {
@@ -928,19 +964,20 @@ export default function App() {
             metaDesc.name = "description";
             document.head.appendChild(metaDesc);
         }
-        metaDesc.content = currentSeo.desc;
+        metaDesc.content = currentSeo?.desc || "";
 
         setIsMobileMenuOpen(false);
     }, [currentPath]);
 
     const navigate = (path) => {
+        window.history.pushState({}, '', path);
         setCurrentPath(path);
     };
 
     const NavLink = ({ href, children, isSpecial = false }) => (
         <button
             onClick={() => navigate(href)}
-            className={`text-sm font-medium transition-colors duration-300 flex items-center ${currentPath === href ? 'text-white' : 'text-slate-400 hover:text-white'} ${isSpecial ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 hover:from-blue-300 hover:to-purple-300' : ''}`}
+            className={`text-sm font-medium transition-colors duration-300 flex items-center ${isPathMatch(href) ? 'text-white' : 'text-slate-400 hover:text-white'} ${isSpecial ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 hover:from-blue-300 hover:to-purple-300' : ''}`}
         >
             {isSpecial && <Sparkles className="w-3.5 h-3.5 mr-1.5 text-blue-400" />}
             {children}
@@ -971,8 +1008,9 @@ export default function App() {
                             <NavLink href={routes.PRODUCTS}>Tecnología</NavLink>
                             <NavLink href={routes.DIAGNOSTIC} isSpecial={true}>Hablar con EMMA</NavLink>
                             <NavLink href={routes.CONTACT}>Contacto</NavLink>
-                            <Button onClick={() => navigate(routes.CONTACT)} variant="secondary" className="px-5 py-2 text-sm">
-                                Agendar Demo
+                            <Button onClick={() => navigate(routes.DEMO_CHAT)} variant="secondary" className="px-5 py-2 text-sm flex items-center bg-blue-600/10 hover:bg-blue-600/20 text-blue-300 border-blue-500/30 font-semibold shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                                <Sparkles className="w-4 h-4 mr-2 text-blue-400" />
+                                Ver Demo
                             </Button>
                         </nav>
 
@@ -995,9 +1033,10 @@ export default function App() {
                         <div className="px-6 pt-4 pb-8 space-y-6 flex flex-col">
                             <button onClick={() => navigate(routes.HOME)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.HOME ? 'text-white' : 'text-slate-500'}`}>Inicio</button>
                             <button onClick={() => navigate(routes.PRODUCTS)} className={`text-left text-2xl font-bold tracking-tight ${currentPath.startsWith(routes.PRODUCTS) ? 'text-white' : 'text-slate-500'}`}>Tecnología</button>
-                            <button onClick={() => navigate(routes.DIAGNOSTIC)} className={`text-left text-2xl font-bold tracking-tight flex items-center ${currentPath === routes.DIAGNOSTIC ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500' : 'text-slate-500'}`}>
-                                <Sparkles className={`w-5 h-5 mr-3 ${currentPath === routes.DIAGNOSTIC ? 'text-blue-400' : 'text-slate-500'}`} /> Hablar con EMMA
+                            <button onClick={() => navigate(routes.DEMO_CHAT)} className={`text-left text-2xl font-bold tracking-tight flex items-center ${currentPath === routes.DEMO_CHAT ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500' : 'text-blue-400'}`}>
+                                <Sparkles className={`w-5 h-5 mr-3 ${currentPath === routes.DEMO_CHAT ? 'text-blue-400' : 'text-blue-500'}`} /> Ver Demo
                             </button>
+                            <button onClick={() => navigate(routes.DIAGNOSTIC)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.DIAGNOSTIC ? 'text-white' : 'text-slate-500'}`}>Hablar con EMMA</button>
                             <button onClick={() => navigate(routes.CONTACT)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.CONTACT ? 'text-white' : 'text-slate-500'}`}>Contacto</button>
                         </div>
                     </div>
@@ -1006,17 +1045,20 @@ export default function App() {
 
             {/* CONTENIDO PRINCIPAL (ROUTER VIEW) */}
             <main className="flex-grow">
-                {currentPath === routes.HOME && <Home navigate={navigate} />}
-                {currentPath === routes.PRODUCTS && <Products navigate={navigate} />}
-                {currentPath === routes.PRODUCT_EMMA && <ProductEmma navigate={navigate} />}
-                {currentPath === routes.PRODUCT_MEDSHIFT && <ProductMedshift navigate={navigate} />}
-                {currentPath === routes.CONTACT && <Contact navigate={navigate} />}
-                {currentPath === routes.DIAGNOSTIC && <Diagnostic navigate={navigate} />}
-                {currentPath === routes.TERMS && <Terms />}
-                {currentPath === routes.PRIVACY && <Privacy />}
-                {currentPath === routes.DATA_DELETION && <DataDeletion />}
-                {/* 404 Fallback */}
-                {!Object.values(routes).includes(currentPath) && (
+                {isPathMatch(routes.HOME) && <Home navigate={navigate} />}
+                {isPathMatch(routes.PRODUCTS) && <Products navigate={navigate} />}
+                {isPathMatch(routes.PRODUCT_EMMA) && <ProductEmma navigate={navigate} />}
+                {isPathMatch(routes.PRODUCT_MEDSHIFT) && <ProductMedshift navigate={navigate} />}
+                {isPathMatch(routes.CONTACT) && <Contact navigate={navigate} />}
+                {isPathMatch(routes.DIAGNOSTIC) && <Diagnostic navigate={navigate} globalDemoConfig={globalDemoConfig} setGlobalDemoConfig={setGlobalDemoConfig} />}
+                {isPathMatch(routes.DEMO_CHAT) && <WhatsAppDemo navigate={navigate} demoConfig={globalDemoConfig} />}
+                {isPathMatch(routes.DEMO_MEDSHIFT) && <MedshiftDemo navigate={navigate} />}
+                {isPathMatch(routes.TERMS) && <Terms />}
+                {isPathMatch(routes.PRIVACY) && <Privacy />}
+                {isPathMatch(routes.DATA_DELETION) && <DataDeletion />}
+
+                {/* 404 Fallback - Only show if NO routes matched */}
+                {!Object.values(routes).some(r => isPathMatch(r)) && (
                     <Section className="pt-40 text-center min-h-[70vh] flex flex-col justify-center items-center">
                         <div className="text-9xl font-black text-white/5 mb-8 tracking-tighter">404</div>
                         <p className="text-2xl text-slate-400 mb-12 font-light">Señal perdida. Sector no encontrado.</p>

@@ -40,5 +40,39 @@ export async function runEmmaDiagnostic(payload, signal) {
         throw new Error("El backend EMMA no devolvió un resultado válido.");
     }
 
-    return data;
+    // Función recursiva para extraer JSON sin importar cuántas veces venga "stringificado"
+    const safeParse = (input) => {
+        if (typeof input !== 'string') return input;
+        try {
+            const parsed = JSON.parse(input);
+            // Si el resultado sigue siendo un string que parece JSON, parsearlo de nuevo
+            if (typeof parsed === 'string' && (parsed.trim().startsWith('{') || parsed.trim().startsWith('['))) {
+                return safeParse(parsed);
+            }
+            return parsed;
+        } catch (e) {
+            return input; // Si no se puede parsear más, devolver el valor actual
+        }
+    };
+
+    let finalResult = data.result;
+    let demoConfig = null;
+
+    // Procesamos el payload entrante (ya sea un string o un objeto)
+    const processedResult = safeParse(data.result);
+
+    if (typeof processedResult === 'object' && processedResult !== null) {
+        // En caso de que el backend o de que safeParse haya extraído exitosamente el objeto
+        finalResult = processedResult.result || processedResult;
+        demoConfig = processedResult.demoConfig || null;
+    } else if (typeof processedResult === 'string') {
+        // Es texto plano válido
+        finalResult = processedResult;
+    }
+
+    return {
+        result: finalResult,
+        demoConfig: demoConfig,
+        metadata: data.metadata || {}
+    };
 }

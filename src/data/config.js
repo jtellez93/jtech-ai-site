@@ -7,7 +7,9 @@ export const routes = {
     DIAGNOSTIC: '/habla-con-emma',
     TERMS: '/legal/terminos-condiciones',
     PRIVACY: '/legal/politica-privacidad',
-    DATA_DELETION: '/legal/eliminacion-datos'
+    DATA_DELETION: '/legal/eliminacion-datos',
+    DEMO_CHAT: '/demo-chat',
+    DEMO_MEDSHIFT: '/demo-medshift'
 };
 
 export const seoData = {
@@ -20,6 +22,7 @@ export const seoData = {
     [routes.TERMS]: { title: 'Términos y Condiciones | JTECH AI SOLUTIONS', desc: 'Términos y condiciones de uso de nuestros servicios.' },
     [routes.PRIVACY]: { title: 'Política de Privacidad | JTECH AI SOLUTIONS', desc: 'Cómo manejamos y protegemos tus datos personales.' },
     [routes.DATA_DELETION]: { title: 'Eliminación de Datos | JTECH AI SOLUTIONS', desc: 'Proceso para solicitar la eliminación de tus datos en nuestros sistemas.' },
+    [routes.DEMO_CHAT]: { title: 'Demo Interactiva | JTECH AI SOLUTIONS', desc: 'Prueba la simulación de nuestro agente de IA.' }
 };
 
 export const companyData = {
