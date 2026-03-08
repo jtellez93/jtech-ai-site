@@ -1,39 +1,39 @@
 export const termsData = {
     title: "Términos y Condiciones",
-    lastUpdated: "06 de Marzo, 2026",
-    legalNote: "Nota legal: Este documento digital es meramente informativo. Para acuerdos comerciales B2B y despliegues técnicos formales, rigen única y exclusivamente las estipulaciones del Contrato de Servicios o Propuesta Comercial debidamente firmada entre las partes.",
+    lastUpdated: "08 de Marzo, 2026",
+    legalNote: "Nota legal: Este documento es informativo. Para cualquier servicio, implementación, suscripción o proyecto de JTECH AI SOLUTIONS, prevalecen la propuesta comercial, el contrato y los anexos firmados entre las partes.",
     sections: [
         {
-            title: "1. Alcance de la Arquitectura y Servicios",
+            title: "1. Alcance de los servicios",
             content: [
-                "El perímetro tecnológico y alcance de los servicios proporcionados por JTECH AI SOLUTIONS (\"JTECH\") será estrictamente el documentado en la propuesta técnica comercial aprobada por el Cliente. Cualquier integración de sistemas, reentrenamiento de modelos o alteración funcional fuera del alcance base constituirá un requerimiento evolutivo sujeto a cotización independiente.",
-                "Las proyecciones técnicas y comerciales contenidas en nuestras propuestas ostentan una vigencia máxima de 15 días calendario contados a partir de su emisión."
+                "El alcance de cada servicio o implementación será el definido en la propuesta comercial o documento aprobado por el Cliente. Cualquier ajuste, integración adicional o ampliación de alcance podrá cotizarse por separado.",
+                "Salvo indicación distinta, las propuestas y condiciones comerciales emitidas por JTECH tienen una vigencia de 15 días calendario desde su fecha de emisión."
             ]
         },
         {
-            title: "2. Derechos y Propiedad Intelectual (Modelo SaaS)",
+            title: "2. Propiedad intelectual y uso",
             content: [
-                "JTECH retiene todos los derechos de propiedad intelectual, derechos patrimoniales y titularidad exclusiva sobre la infraestructura subyacente, algoritmos, código fuente original, modelos de datos pre-entrenados y cualquier artefacto reutilizable diseñado durante el ciclo de vida del servicio. El Cliente recibe una licencia de uso limitada, no exclusiva e intransferible, condicionada al mantenimiento de su suscripción activa y al cumplimiento de sus obligaciones financieras."
+                "JTECH conserva la propiedad intelectual sobre sus productos, componentes, arquitectura, software base, documentación y activos reutilizables. El Cliente recibe una licencia de uso limitada, no exclusiva e intransferible sobre los servicios o productos contratados, sujeta a la vigencia de la relación comercial y al cumplimiento de las condiciones pactadas."
             ]
         },
         {
-            title: "3. Limitación Estricta de Responsabilidad",
+            title: "3. Limitación de responsabilidad",
             content: [
-                "La responsabilidad agregada máxima de JTECH frente a cualquier contingencia originada en la prestación del servicio se circunscribirá al monto efectivamente pagado por el Cliente en los 3 meses inmediatos anteriores al evento (para arquitecturas bajo modelo de suscripción) o al valor nominal del hito de proyecto afectado.",
-                "Bajo ninguna circunstancia JTECH responderá por daños consecuenciales, lucro cesante, interrupción de la operación de negocio, ni pérdida de información del Cliente originada en fallas ajenas a la infraestructura administrada por JTECH."
+                "La responsabilidad máxima de JTECH se limitará al valor efectivamente pagado por el Cliente en los 3 meses anteriores al hecho que origine la reclamación, cuando se trate de servicios recurrentes, o al valor total del proyecto o hito afectado cuando se trate de un servicio puntual.",
+                "JTECH no responderá por daños indirectos, lucro cesante, pérdida de negocio, pérdida de ingresos, decisiones tomadas por el Cliente, ni por fallas atribuibles a terceros, infraestructura ajena o usos no soportados."
             ]
         },
         {
-            title: "4. Causales de Terminación Anticipada",
+            title: "4. Terminación o suspensión",
             content: [
-                "La provisión de servicios e infraestructura tecnológica podrá ser suspendida o finalizada de manera unilateral por las siguientes causales:"
+                "JTECH podrá suspender o dar por terminados los servicios, parcial o totalmente, en los siguientes casos: "
             ],
             list: [
-                "Mora en el cumplimiento de obligaciones de pago superior a 10 días calendario.",
-                "Incumplimiento sustancial o reiterado de las directrices técnicas u obligaciones contractuales.",
-                "Uso indebido de la plataforma, ingeniería inversa, o acciones que comprometan la seguridad perimetral de nuestros sistemas.",
-                "Detección automatizada de anomalías críticas de seguridad.",
-                "Terminación de mutuo acuerdo notificada fehacientemente."
+                "Mora superior a 10 días calendario en pagos vencidos.",
+                "Incumplimiento material de obligaciones contractuales o de uso.",
+                "Uso indebido del servicio o acciones que comprometan la seguridad.",
+                "Riesgos operativos o de seguridad que exijan contención inmediata.",
+                "Terminación por mutuo acuerdo."
             ]
         }
     ]
@@ -41,61 +41,61 @@ export const termsData = {
 
 export const privacyData = {
     title: "Política de Privacidad",
-    lastUpdated: "06 de Marzo, 2026",
+    lastUpdated: "08 de Marzo, 2026",
     sections: [
         {
-            title: "1. Identidad del Responsable",
+            title: "1. Identidad del responsable",
             content: [
-                "JTECH AI SOLUTIONS ejerce la función de Responsable del tratamiento de los datos de carácter personal recolectados en este entorno digital y durante el ciclo de vida de nuestra relación comercial.",
+                "JTECH AI SOLUTIONS actúa como responsable del tratamiento de los datos personales recolectados a través de este sitio web y de sus canales comerciales, operativos y de soporte.",
                 "Información societaria: [TODO_DATOS_LEGALES_EMPRESA]"
             ]
         },
         {
-            title: "2. Categorías de Datos Procesados",
+            title: "2. Datos que tratamos",
             content: [
-                "En el entorno exclusivo de nuestras operaciones B2B (Business to Business), tratamos limitadamente:"
+                "Tratamos de forma limitada la información necesaria para atender solicitudes, gestionar la relación comercial y operar nuestros servicios."
             ],
             list: [
-                "Identificadores corporativos: Nombres, cargos, correos electrónicos empresariales y números de contacto B2B.",
-                "Trazabilidad de soporte: Historial de incidencias, solicitudes técnicas y consultas operativas.",
-                "Telemetría: Metadata de uso, logs de red y analítica de la infraestructura para optimización.",
-                "Tokens y credenciales de API (estrictamente encriptados y cifrados en tránsito/reposo)."
+                "Datos de contacto corporativo, como nombre, cargo, empresa, correo empresarial y teléfono.",
+                "Información compartida voluntariamente en formularios, correos o reuniones.",
+                "Historial de comunicaciones, solicitudes y soporte.",
+                "Datos técnicos mínimos de navegación, seguridad y operación."
             ],
-            subtitle: "Directiva de Datos Sensibles (Zero-Trust)",
+            subtitle: "Principio de minimización",
             subcontent: [
-                "La arquitectura de JTECH AI SOLUTIONS opera bajo el principio de minimización de datos. No requerimos, procesamos ni almacenamos información personal sensible, datos de salud, datos biométricos ni secretos comerciales de los usuarios finales de nuestros Clientes en nuestros modelos base. Cuando operamos como Encargados (ej. MedShift), el procesamiento se rige por instrucciones tecnológicas estrictas de encriptación dictadas por el Cliente."
+                "JTECH procura recolectar únicamente la información necesaria para sus fines comerciales, operativos y de seguridad. No solicitamos de forma ordinaria datos sensibles ni información innecesaria para la prestación del servicio."
             ]
         },
         {
-            title: "3. Finalidades y Legitimación",
+            title: "3. Finalidades del tratamiento",
             content: [
-                "El procesamiento de información tiene como propósitos fundamentales:"
+                "La información personal podrá ser utilizada para:"
             ],
             list: [
-                "El aprovisionamiento técnico, despliegue y mantenimiento de los sistemas de IA contratados.",
-                "Gestión integral del nivel de servicio (SLA) y resolución técnica de incidencias.",
-                "Comunicaciones inherentes a la continuidad del negocio (actualizaciones de seguridad, parches, facturación).",
-                "Entrenamiento y evolución anónima/agregada de nuestros modelos algorítmicos propios."
+                "Atender solicitudes de contacto, diagnóstico o información comercial.",
+                "Gestionar propuestas, contratos, facturación y soporte.",
+                "Operar, asegurar y mejorar nuestros productos, servicios y canales digitales.",
+                "Cumplir obligaciones legales y contractuales aplicables."
             ],
             postContent: "Marco normativo referencial: [TODO_MARCO_NORMATIVO_POR_PAIS]."
         },
         {
-            title: "4. Ciclo de Vida y Retención",
+            title: "4. Retención y conservación",
             content: [
-                "Aplicamos políticas estrictas de ciclo de vida de los datos:"
+                "Conservamos la información durante el tiempo necesario para fines comerciales, operativos, contractuales o legales."
             ],
             list: [
-                "Leads y telemetría comercial: Purga automática tras 12 meses de inactividad.",
-                "Artefactos de soporte (Tickets): Retención por 12 meses pos-cierre para auditoría.",
-                "Logs operacionales del sistema: Rotación y destrucción automatizada entre 30 y 90 días.",
-                "Despliegue de Borrado Operativo: Al finalizar la suscripción de un entorno SaaS, los datos almacenados en los clústeres del cliente son destruidos criptográficamente en un plazo perentorio de 30 días, salvo reserva por mandato judicial."
+                "Leads y registros comerciales: hasta 12 meses de inactividad, salvo continuidad de la relación.",
+                "Registros de soporte: hasta 12 meses después del cierre del caso o servicio.",
+                "Logs técnicos y operativos: entre 30 y 90 días, salvo necesidad legal o de seguridad.",
+                "Artefactos comerciales y documentales: hasta 24 meses cuando se requiera trazabilidad."
             ]
         },
         {
-            title: "5. Ejercicio de Derechos (ARCO)",
+            title: "5. Ejercicio de derechos",
             content: [
-                "Para solicitudes de acceso, rectificación, cancelación u oposición relativas a sus datos procesados en nuestra infraestructura, dirija su petición formal a nuestro Oficial de Privacidad y Seguridad de la Información:",
-                "Canal criptográfico: privacidad@jtech.ai"
+                "El titular podrá solicitar acceso, actualización, rectificación o eliminación de sus datos personales, así como realizar consultas sobre su tratamiento.",
+                "Canal de contacto: privacidad@jtsoluciones.com"
             ]
         }
     ]
@@ -103,27 +103,26 @@ export const privacyData = {
 
 export const dataDeletionData = {
     title: "Eliminación de Datos",
-    lastUpdated: "06 de Marzo, 2026",
+    lastUpdated: "08 de Marzo, 2026",
     intro: [
-        "De conformidad con las normativas internacionales de protección de datos (ej. GDPR, leyes locales aplicables), JTECH AI SOLUTIONS garantiza su derecho al \"Olvido Digital\" facilitando un protocolo seguro para la purga de su información personal de nuestra infraestructura."
+        "JTECH AI SOLUTIONS dispone de un canal para solicitar la eliminación de datos personales, conforme a la normativa aplicable y a las limitaciones legales, contractuales o técnicas que correspondan."
     ],
     sections: [
         {
-            title: "Protocolo de Solicitud de Borrado",
+            title: "Cómo solicitar la eliminación",
             content: [
-                "Para ejecutar una orden de eliminación en nuestros sistemas centrales, ejecute las siguientes instrucciones:"
             ],
             orderedList: [
-                "Remita un correo electrónico a nuestro Centro de Seguridad y Privacidad: privacidad@jtech.ai",
-                "Utilice obligatoriamente el siguiente asunto de mensaje: \"Solicitud Formal de Eliminación de Datos\"",
-                "En la carga útil (cuerpo) del mensaje, incluya la matriz de validación mínima: Nombre legal completo, Entidad organizativa o dominio corporativo asociado a la interacción, Correo electrónico principal, Vector de interacción (ej. \"Demostración de EMMA en Q3\")."
+                "Envía un correo a privacidad@jtsoluciones.com.",
+                "Usa como asunto: \"Solicitud de Eliminación de Datos\".",
+                "Incluye tu nombre, empresa o contexto de relación con JTECH, correo asociado y una breve descripción de la solicitud."
             ]
         },
         {
-            title: "Acuerdos de Nivel de Servicio (SLA) para Retención",
+            title: "Tiempos de atención y excepciones",
             content: [
-                "Una vez que el sistema verifica la autenticidad criptográfica o por origen del solicitante, nuestros ingenieros procederán a expurgar la información de las bases de datos transaccionales. El tiempo máximo de confirmación técnica es de 15 días hábiles.",
-                "Nota de Arquitectura: Existen excepciones técnicas ineludibles dictadas por legislaciones fiscales y de auditoría informática. Ciertos logs transaccionales inmutables o registros de facturación no podrán ser eliminados prematuramente. En caso de aplicar una restricción de esta naturaleza, el usuario recibirá un reporte de excepción documentando la base legal y el cronograma de purga diferida."
+                "Una vez recibida la solicitud y validada la identidad o legitimidad del solicitante, JTECH dará respuesta dentro de un plazo máximo de 15 días hábiles.",
+                "La eliminación podrá estar sujeta a excepciones cuando exista obligación legal o contractual de conservación, registros de facturación, evidencia de cumplimiento o logs que deban mantenerse temporalmente por seguridad, auditoría o defensa jurídica."
             ]
         }
     ],
