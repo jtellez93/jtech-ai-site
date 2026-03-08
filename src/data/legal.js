@@ -26,7 +26,7 @@ export const termsData = {
         {
             title: "4. Terminación o suspensión",
             content: [
-                "JTECH podrá suspender o dar por terminados los servicios, parcial o totalmente, en los siguientes casos: "
+                "JTECH podrá suspender o dar por terminados los servicios, parcial o totalmente, en los siguientes casos:"
             ],
             list: [
                 "Mora superior a 10 días calendario en pagos vencidos.",
@@ -47,7 +47,7 @@ export const privacyData = {
             title: "1. Identidad del responsable",
             content: [
                 "JTECH AI SOLUTIONS actúa como responsable del tratamiento de los datos personales recolectados a través de este sitio web y de sus canales comerciales, operativos y de soporte.",
-                "Información societaria: [TODO_DATOS_LEGALES_EMPRESA]"
+                "Información societaria: JTECH AI SOLUTIONS S.A.S., NIT 902044227-6, sociedad por acciones simplificada de naturaleza comercial, con domicilio principal en Cali, Colombia."
             ]
         },
         {
@@ -77,7 +77,7 @@ export const privacyData = {
                 "Operar, asegurar y mejorar nuestros productos, servicios y canales digitales.",
                 "Cumplir obligaciones legales y contractuales aplicables."
             ],
-            postContent: "Marco normativo referencial: [TODO_MARCO_NORMATIVO_POR_PAIS]."
+            postContent: "Marco normativo referencial: Ley 1581 de 2012, Decreto 1074 de 2015 y directrices aplicables de la Superintendencia de Industria y Comercio de Colombia."
         },
         {
             title: "4. Retención y conservación",
@@ -110,8 +110,7 @@ export const dataDeletionData = {
     sections: [
         {
             title: "Cómo solicitar la eliminación",
-            content: [
-            ],
+            content: [],
             orderedList: [
                 "Envía un correo a privacidad@jtsoluciones.com.",
                 "Usa como asunto: \"Solicitud de Eliminación de Datos\".",
