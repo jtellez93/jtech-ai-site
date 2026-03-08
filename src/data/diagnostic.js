@@ -1,19 +1,19 @@
 export const diagnosticData = {
-    badge: "Habla con EMMA",
-    titlePrefix: "Cuéntale a EMMA ",
-    titleHighlight: "tu desafío.",
-    description: `Describe el proceso que hoy genera más fricción en tu operación. EMMA, nuestra IA consultora, analizará el caso y te recomendará la solución de JTECH con mejor ajuste para tu contexto.`,
-    inputLabel: "¿Qué proceso quieres optimizar hoy?",
-    inputPlaceholder: "Ej: Nuestro equipo pierde horas respondiendo WhatsApp, agendando citas y resolviendo las mismas preguntas una y otra vez...",
-    buttonAnalyze: "Consultar con EMMA",
-    buttonProcessing: "EMMA está analizando tu operación...",
-    errorMessage: `EMMA no pudo procesar la consulta en este momento. Inténtalo de nuevo en unos minutos o contáctanos directamente.`,
-    resultTitle: "Recomendación JTECH",
-    ctaText: "¿Quieres aterrizar esta solución a tu operación?",
-    ctaButton: "Agendar reunión técnica",
+  badge: "Habla con EMMA",
+  titlePrefix: "Cuéntale a EMMA ",
+  titleHighlight: "tu desafío.",
+  description: `Describe el proceso que hoy genera más fricción en tu operación. EMMA, nuestra IA consultora, analizará el caso y te recomendará la solución de JTECH con mejor ajuste para tu contexto.`,
+  inputLabel: "¿Qué proceso quieres optimizar hoy?",
+  inputPlaceholder: "Ej: Nuestro equipo pierde horas respondiendo WhatsApp, agendando citas y resolviendo las mismas preguntas una y otra vez...",
+  buttonAnalyze: "Consultar con EMMA",
+  buttonProcessing: "EMMA está analizando tu operación...",
+  errorMessage: `EMMA no pudo procesar la consulta en este momento. Inténtalo de nuevo en unos minutos o contáctanos directamente.`,
+  resultTitle: "Recomendación JTECH",
+  ctaText: "¿Quieres aterrizar esta solución a tu operación?",
+  ctaButton: "Agendar conversación",
 
-    // Configuración del System Prompt para OpenAI
-    systemInstruction: `Eres EMMA, consultora senior de JTECH AI SOLUTIONS, experta en diagnóstico operativo,
+  // Configuración del System Prompt para OpenAI
+  systemInstruction: `Eres EMMA, consultora senior de JTECH AI SOLUTIONS, experta en diagnóstico operativo,
   automatización asistida por IA y diseño de soluciones aplicadas al negocio.
 
   Tu única función es analizar problemas, fricciones, cuellos de botella o desafíos operativos

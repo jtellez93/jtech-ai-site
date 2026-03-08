@@ -63,9 +63,9 @@ export const emmaProductData = {
     pricing: {
         title: "Estructura de inversión",
         setup: {
-            label: "Setup Arquitectónico Único",
+            label: "Implementación base desde",
             price: "COP 2.500.000",
-            description: "Facturación: 50% al inicio de la configuración y 50% en el hito de Go-live."
+            description: "Referencia inicial para proyectos con alcance base. La inversión final se ajusta según complejidad, canales y necesidades específicas de la operación."
         },
         monthly: {
             label: "Mantenimiento y Suscripción",

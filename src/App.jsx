@@ -8,42 +8,10 @@ import { productsPageData, emmaProductData, medshiftProductData } from './data/p
 import { contactData } from './data/contact';
 import { diagnosticData } from './data/diagnostic';
 import { termsData, privacyData, dataDeletionData } from './data/legal';
+import { runEmmaDiagnostic } from './services/emmaDiagnostic';
 
 // Mapa de íconos para poder renderizarlos desde texto
 const Icons = { Menu, X, CheckCircle, ArrowRight, ShieldCheck, Mail, Phone, Clock, FileText, Database, ChevronRight, Sparkles };
-
-// --- API OPENAI HELPER ---
-const callOpenAIWithRetry = async (payload, retries = 5, delay = 1000) => {
-    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
-    const modelId = import.meta.env.VITE_OPENAI_MODEL || 'gpt-4o-mini';
-    const url = 'https://api.openai.com/v1/chat/completions';
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: modelId,
-                messages: payload.messages
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        if (retries > 0) {
-            await new Promise(res => setTimeout(res, delay));
-            return callOpenAIWithRetry(payload, retries - 1, delay * 2);
-        }
-        throw error;
-    }
-};
 
 // --- COMPONENTES DE ANIMACIÓN Y UI (ESTILO APPLE / AI) ---
 const Reveal = ({ children, delay = 0, className = "" }) => {
@@ -452,35 +420,94 @@ const Diagnostic = ({ navigate }) => {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const [leadCopied, setLeadCopied] = useState(false);
+    const [leadForm, setLeadForm] = useState({ name: '', email: '', phone: '' });
+    const [leadSubmitted, setLeadSubmitted] = useState(false);
+    const [honeypot, setHoneypot] = useState('');
 
     const handleAnalyze = async () => {
         if (!problemDesc.trim()) return;
 
+        // 1. Honeypot check (Bot Protection)
+        if (honeypot) {
+            setError("Actividad inusual detectada. Por favor, intenta más tarde.");
+            return;
+        }
+
+        // 2. Local Rate Limiting Check (Frontend-side Bot Protection)
+        const history = JSON.parse(localStorage.getItem('emma_usage_history') || '[]');
+        const now = Date.now();
+        const recentRequests = history.filter(time => now - time < 3600000); // 1 hour window
+
+        if (recentRequests.length >= 2) {
+            setError("Has superado el límite de 2 diagnósticos gratuitos por hora. Déjanos tus datos en la sección de contacto para agendar una sesión.");
+            return;
+        }
+
+        // Registrar nuevo intento exitoso en historial local
+        recentRequests.push(now);
+        localStorage.setItem('emma_usage_history', JSON.stringify(recentRequests));
+
         setIsAnalyzing(true);
         setResult(null);
         setError(null);
+        setLeadSubmitted(false);
 
         const payload = {
-            messages: [
-                { role: "system", content: diagnosticData.systemInstruction },
-                { role: "user", content: `El desafío operativo de mi empresa es: "${problemDesc}"` }
-            ]
+            problemDesc: problemDesc
         };
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
         try {
-            const data = await callOpenAIWithRetry(payload);
-            const textResponse = data.choices?.[0]?.message?.content;
-            if (textResponse) {
-                setResult(textResponse);
-            } else {
-                throw new Error("Respuesta inválida de la IA");
-            }
+            const data = await runEmmaDiagnostic(payload, controller.signal);
+            setResult(data.result);
         } catch (err) {
-            console.error("Error calling AI:", err);
-            setError(diagnosticData.errorMessage);
+            console.error("Error calling EMMA Backend:", err);
+            if (err.name === 'AbortError') {
+                setError("La solicitud tardó demasiado tiempo en responder. Por favor intenta de nuevo.");
+            } else {
+                setError(err.message || diagnosticData.errorMessage);
+            }
         } finally {
+            clearTimeout(timeoutId);
             setIsAnalyzing(false);
         }
+    };
+
+    const handleCopy = () => {
+        if (result) {
+            navigator.clipboard.writeText(result);
+            setLeadCopied(true);
+            setTimeout(() => setLeadCopied(false), 2000);
+        }
+    };
+
+    const handleLeadSubmit = (e) => {
+        e.preventDefault();
+
+        const subjectName = leadForm.name ? ` - ${leadForm.name}` : '';
+        const subject = encodeURIComponent(`Recomendación de EMMA - Diagnóstico Operativo${subjectName}`);
+
+        const body = encodeURIComponent(
+            `¡Hola equipo JTECH!\n\n` +
+            `Acabo de usar a EMMA, su consultora de IA, y me interesa agendar una reunión.\n\n` +
+            `Mis datos de contacto son:\n` +
+            `Nombre: ${leadForm.name}\n` +
+            `Correo: ${leadForm.email}\n` +
+            `Teléfono: ${leadForm.phone}\n\n` +
+            `=== MI DESAFÍO OPERATIVO ===\n` +
+            `${problemDesc}\n\n` +
+            `=== DIAGNÓSTICO DE EMMA ===\n` +
+            `${result}\n\n` +
+            `Quedo atento a su contacto.`
+        );
+
+        window.location.href = `mailto:${companyData.contactEmail}?subject=${subject}&body=${body}`;
+
+        setLeadSubmitted(true);
+        setLeadForm({ name: '', email: '', phone: '' });
     };
 
     return (
@@ -507,6 +534,18 @@ const Diagnostic = ({ navigate }) => {
 
                         <div className="relative z-10 space-y-6">
                             <label htmlFor="problem" className="block text-lg font-medium text-white">{diagnosticData.inputLabel}</label>
+
+                            {/* Hidden Honeypot Input */}
+                            <input
+                                type="text"
+                                name="company_website_url"
+                                tabIndex="-1"
+                                autoComplete="off"
+                                style={{ position: 'absolute', opacity: 0, height: 0, width: 0, zIndex: -1 }}
+                                value={honeypot}
+                                onChange={(e) => setHoneypot(e.target.value)}
+                            />
+
                             <textarea
                                 id="problem"
                                 rows="4"
@@ -536,7 +575,6 @@ const Diagnostic = ({ navigate }) => {
                     </GlassCard>
                 </Reveal>
 
-                {/* Resultados de la IA */}
                 {error && (
                     <Reveal className="max-w-3xl mx-auto mt-8">
                         <div className="bg-red-500/10 border border-red-500/30 text-red-200 rounded-2xl p-6 text-center">
@@ -546,7 +584,8 @@ const Diagnostic = ({ navigate }) => {
                 )}
 
                 {result && !isAnalyzing && (
-                    <Reveal className="max-w-3xl mx-auto mt-12">
+                    <Reveal className="max-w-3xl mx-auto mt-12 space-y-8">
+                        {/* Tarjeta de Resultados */}
                         <GlassCard className="border-purple-500/30 bg-purple-900/10 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
 
@@ -563,11 +602,67 @@ const Diagnostic = ({ navigate }) => {
                                 ))}
                             </div>
 
-                            <div className="mt-10 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
-                                <p className="text-sm text-slate-400 font-light">{diagnosticData.ctaText}</p>
+                            {/* Botones de Acción Posterior (Idea 3) */}
+                            <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
+                                <button
+                                    onClick={handleCopy}
+                                    className="flex items-center text-sm text-slate-400 hover:text-white transition-colors py-2"
+                                >
+                                    {leadCopied ? (
+                                        <><CheckCircle className="w-4 h-4 mr-2 text-green-400" /> Copiado al portapapeles</>
+                                    ) : (
+                                        <><FileText className="w-4 h-4 mr-2" /> Copiar Resumen Ejecutivo</>
+                                    )}
+                                </button>
                                 <Button variant="primary" onClick={() => navigate(routes.CONTACT)}>{diagnosticData.ctaButton}</Button>
                             </div>
                         </GlassCard>
+
+                        {/* Módulo de Lead Gen Integrado (Idea 1) */}
+                        {!leadSubmitted ? (
+                            <GlassCard className="border-blue-500/20 bg-blue-900/5 max-w-2xl mx-auto">
+                                <div className="text-center mb-6">
+                                    <h4 className="text-xl font-semibold text-white mb-2">¿Te hace sentido esta recomendación?</h4>
+                                    <p className="text-slate-400 font-light text-sm">Déjanos tus datos y un especialista te contactará con los detalles técnicos y tiempos de implementación.</p>
+                                </div>
+                                <form onSubmit={handleLeadSubmit} className="flex flex-col gap-4">
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        <input
+                                            type="text"
+                                            required
+                                            placeholder="Tu nombre completo"
+                                            className="flex-grow px-5 py-3 bg-black/50 border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-blue-500 outline-none placeholder:text-slate-600 text-sm"
+                                            value={leadForm.name}
+                                            onChange={(e) => setLeadForm({ ...leadForm, name: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        <input
+                                            type="email"
+                                            required
+                                            placeholder="Tu correo corporativo"
+                                            className="flex-grow px-5 py-3 bg-black/50 border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-blue-500 outline-none placeholder:text-slate-600 text-sm"
+                                            value={leadForm.email}
+                                            onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
+                                        />
+                                        <input
+                                            type="tel"
+                                            required
+                                            placeholder="Tu teléfono corporativo"
+                                            className="flex-grow px-5 py-3 bg-black/50 border border-white/10 rounded-xl text-white focus:ring-1 focus:ring-blue-500 outline-none placeholder:text-slate-600 text-sm"
+                                            value={leadForm.phone}
+                                            onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
+                                        />
+                                        <Button type="submit" variant="secondary" className="px-6">Contactarme</Button>
+                                    </div>
+                                </form>
+                            </GlassCard>
+                        ) : (
+                            <div className="max-w-2xl mx-auto bg-green-500/10 border border-green-500/30 text-green-200 rounded-2xl p-6 flex items-center justify-center backdrop-blur-md">
+                                <CheckCircle className="w-6 h-6 mr-3 text-green-400" />
+                                <span>Información recibida. Un consultor se comunicará pronto.</span>
+                            </div>
+                        )}
                     </Reveal>
                 )}
             </Section>

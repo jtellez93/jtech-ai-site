@@ -17,6 +17,14 @@ Para correr este proyecto en tu máquina local, necesitas tener instalado lo sig
 1. **Node.js** (Se recomienda la versión LTS más reciente, versión 18+). Puedes descargarlo [aquí](https://nodejs.org/).
 2. **Git** para el control de versiones.
 
+### Configuración del Backend de EMMA (BFF)
+Para que el módulo de Diagnóstico IA funcione localmente, necesitas conectarlo al servidor backend de EMMA.
+1. Crea un archivo llamado `.env.local` en la raíz del proyecto.
+2. Agrega la siguiente variable de entorno apuntando a tu URL del backend o túnel de Cloudflare:
+   ```env
+   VITE_EMMA_API_BASE_URL=https://tu-url-del-backend.com
+   ```
+
 ---
 
 ## 💻 Desarrollo Local (Pruebas en Dev)
