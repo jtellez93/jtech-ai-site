@@ -9,7 +9,8 @@ export const routes = {
     PRIVACY: '/legal/politica-privacidad',
     DATA_DELETION: '/legal/eliminacion-datos',
     DEMO_CHAT: '/demo-chat',
-    DEMO_MEDSHIFT: '/demo-medshift'
+    DEMO_MEDSHIFT: '/demo-medshift',
+    LANDING_EMMA: '/landings/emma'
 };
 
 export const seoData = {
@@ -22,7 +23,8 @@ export const seoData = {
     [routes.TERMS]: { title: 'Términos y Condiciones | JTECH AI SOLUTIONS', desc: 'Términos y condiciones de uso de nuestros servicios.' },
     [routes.PRIVACY]: { title: 'Política de Privacidad | JTECH AI SOLUTIONS', desc: 'Cómo manejamos y protegemos tus datos personales.' },
     [routes.DATA_DELETION]: { title: 'Eliminación de Datos | JTECH AI SOLUTIONS', desc: 'Proceso para solicitar la eliminación de tus datos en nuestros sistemas.' },
-    [routes.DEMO_CHAT]: { title: 'Demo Interactiva | JTECH AI SOLUTIONS', desc: 'Prueba la simulación de nuestro agente de IA.' }
+    [routes.DEMO_CHAT]: { title: 'Demo Interactiva | JTECH AI SOLUTIONS', desc: 'Prueba la simulación de nuestro agente de IA.' },
+    [routes.LANDING_EMMA]: { title: 'Inteligencia Artificial para Atención al Cliente | JTECH', desc: 'Automatiza el 60% de tus tickets de soporte con EMMA ServiceOps. Gemelo digital con inteligencia artificial para empresas.' }
 };
 
 export const companyData = {

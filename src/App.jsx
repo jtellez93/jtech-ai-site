@@ -11,6 +11,7 @@ import { termsData, privacyData, dataDeletionData } from './data/legal';
 import { runEmmaDiagnostic } from './services/emmaDiagnostic';
 import WhatsAppDemo from './pages/WhatsAppDemo';
 import MedshiftDemo from './pages/MedshiftDemo';
+import EmmaLanding from './pages/EmmaLanding';
 
 // Mapa de íconos para poder renderizarlos desde texto
 const Icons = { Menu, X, CheckCircle, ArrowRight, ShieldCheck, Mail, Phone, Clock, FileText, Database, ChevronRight, Sparkles };
@@ -984,64 +985,72 @@ export default function App() {
         </button>
     );
 
+    const isSqueezePage = isPathMatch(routes.LANDING_EMMA);
+
     return (
         <div className="min-h-screen flex flex-col font-sans text-slate-300 bg-[#030712] selection:bg-blue-500/30 selection:text-white relative overflow-hidden">
 
             {/* ORBES DE FONDO FUTURISTAS (GLOBALES) */}
-            <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-900/10 blur-[120px] pointer-events-none z-0"></div>
-            <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/10 blur-[120px] pointer-events-none z-0"></div>
+            {!isSqueezePage && (
+                <>
+                    <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-900/10 blur-[120px] pointer-events-none z-0"></div>
+                    <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/10 blur-[120px] pointer-events-none z-0"></div>
+                </>
+            )}
 
             {/* HEADER FIJO (GLASS) */}
-            <header className="fixed top-0 w-full bg-[#030712]/60 backdrop-blur-xl border-b border-white/5 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center h-20">
-                        {/* Logo */}
-                        <div className="flex-shrink-0 flex items-center cursor-pointer group" onClick={() => navigate(routes.HOME)}>
-                            <span className="font-extrabold text-2xl tracking-tighter text-white">
-                                {companyData.shortName.split(' ')[0]}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-normal"> {companyData.shortName.split(' ')[1]}</span>
-                            </span>
-                        </div>
+            {!isSqueezePage && (
+                <header className="fixed top-0 w-full bg-[#030712]/60 backdrop-blur-xl border-b border-white/5 z-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-20">
+                            {/* Logo */}
+                            <div className="flex-shrink-0 flex items-center cursor-pointer group" onClick={() => navigate(routes.HOME)}>
+                                <span className="font-extrabold text-2xl tracking-tighter text-white">
+                                    {companyData.shortName.split(' ')[0]}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-normal"> {companyData.shortName.split(' ')[1]}</span>
+                                </span>
+                            </div>
 
-                        {/* Desktop Nav */}
-                        <nav className="hidden md:flex space-x-10 items-center">
-                            <NavLink href={routes.HOME}>Inicio</NavLink>
-                            <NavLink href={routes.PRODUCTS}>Tecnología</NavLink>
-                            <NavLink href={routes.DIAGNOSTIC} isSpecial={true}>Hablar con EMMA</NavLink>
-                            <NavLink href={routes.CONTACT}>Contacto</NavLink>
-                            <Button onClick={() => navigate(routes.DEMO_CHAT)} variant="secondary" className="px-5 py-2 text-sm flex items-center bg-blue-600/10 hover:bg-blue-600/20 text-blue-300 border-blue-500/30 font-semibold shadow-[0_0_15px_rgba(59,130,246,0.2)]">
-                                <Sparkles className="w-4 h-4 mr-2 text-blue-400" />
-                                Ver Demo
-                            </Button>
-                        </nav>
+                            {/* Desktop Nav */}
+                            <nav className="hidden md:flex space-x-10 items-center">
+                                <NavLink href={routes.HOME}>Inicio</NavLink>
+                                <NavLink href={routes.PRODUCTS}>Tecnología</NavLink>
+                                <NavLink href={routes.DIAGNOSTIC} isSpecial={true}>Hablar con EMMA</NavLink>
+                                <NavLink href={routes.CONTACT}>Contacto</NavLink>
+                                <Button onClick={() => navigate(routes.DEMO_CHAT)} variant="secondary" className="px-5 py-2 text-sm flex items-center bg-blue-600/10 hover:bg-blue-600/20 text-blue-300 border-blue-500/30 font-semibold shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                                    <Sparkles className="w-4 h-4 mr-2 text-blue-400" />
+                                    Ver Demo
+                                </Button>
+                            </nav>
 
-                        {/* Mobile Menu Button */}
-                        <div className="md:hidden flex items-center">
-                            <button
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="text-slate-400 hover:text-white focus:outline-none transition-colors p-2"
-                                aria-label="Toggle menu"
-                            >
-                                {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Mobile Nav */}
-                {isMobileMenuOpen && (
-                    <div className="md:hidden bg-[#030712]/95 backdrop-blur-2xl border-b border-white/5 absolute w-full left-0 animate-in slide-in-from-top-4 duration-300 shadow-2xl">
-                        <div className="px-6 pt-4 pb-8 space-y-6 flex flex-col">
-                            <button onClick={() => navigate(routes.HOME)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.HOME ? 'text-white' : 'text-slate-500'}`}>Inicio</button>
-                            <button onClick={() => navigate(routes.PRODUCTS)} className={`text-left text-2xl font-bold tracking-tight ${currentPath.startsWith(routes.PRODUCTS) ? 'text-white' : 'text-slate-500'}`}>Tecnología</button>
-                            <button onClick={() => navigate(routes.DEMO_CHAT)} className={`text-left text-2xl font-bold tracking-tight flex items-center ${currentPath === routes.DEMO_CHAT ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500' : 'text-blue-400'}`}>
-                                <Sparkles className={`w-5 h-5 mr-3 ${currentPath === routes.DEMO_CHAT ? 'text-blue-400' : 'text-blue-500'}`} /> Ver Demo
-                            </button>
-                            <button onClick={() => navigate(routes.DIAGNOSTIC)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.DIAGNOSTIC ? 'text-white' : 'text-slate-500'}`}>Hablar con EMMA</button>
-                            <button onClick={() => navigate(routes.CONTACT)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.CONTACT ? 'text-white' : 'text-slate-500'}`}>Contacto</button>
+                            {/* Mobile Menu Button */}
+                            <div className="md:hidden flex items-center">
+                                <button
+                                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                    className="text-slate-400 hover:text-white focus:outline-none transition-colors p-2"
+                                    aria-label="Toggle menu"
+                                >
+                                    {isMobileMenuOpen ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
+                                </button>
+                            </div>
                         </div>
                     </div>
-                )}
-            </header>
+
+                    {/* Mobile Nav */}
+                    {isMobileMenuOpen && (
+                        <div className="md:hidden bg-[#030712]/95 backdrop-blur-2xl border-b border-white/5 absolute w-full left-0 animate-in slide-in-from-top-4 duration-300 shadow-2xl">
+                            <div className="px-6 pt-4 pb-8 space-y-6 flex flex-col">
+                                <button onClick={() => navigate(routes.HOME)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.HOME ? 'text-white' : 'text-slate-500'}`}>Inicio</button>
+                                <button onClick={() => navigate(routes.PRODUCTS)} className={`text-left text-2xl font-bold tracking-tight ${currentPath.startsWith(routes.PRODUCTS) ? 'text-white' : 'text-slate-500'}`}>Tecnología</button>
+                                <button onClick={() => navigate(routes.DEMO_CHAT)} className={`text-left text-2xl font-bold tracking-tight flex items-center ${currentPath === routes.DEMO_CHAT ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500' : 'text-blue-400'}`}>
+                                    <Sparkles className={`w-5 h-5 mr-3 ${currentPath === routes.DEMO_CHAT ? 'text-blue-400' : 'text-blue-500'}`} /> Ver Demo
+                                </button>
+                                <button onClick={() => navigate(routes.DIAGNOSTIC)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.DIAGNOSTIC ? 'text-white' : 'text-slate-500'}`}>Hablar con EMMA</button>
+                                <button onClick={() => navigate(routes.CONTACT)} className={`text-left text-2xl font-bold tracking-tight ${currentPath === routes.CONTACT ? 'text-white' : 'text-slate-500'}`}>Contacto</button>
+                            </div>
+                        </div>
+                    )}
+                </header>
+            )}
 
             {/* CONTENIDO PRINCIPAL (ROUTER VIEW) */}
             <main className="flex-grow">
@@ -1053,6 +1062,7 @@ export default function App() {
                 {isPathMatch(routes.DIAGNOSTIC) && <Diagnostic navigate={navigate} globalDemoConfig={globalDemoConfig} setGlobalDemoConfig={setGlobalDemoConfig} />}
                 {isPathMatch(routes.DEMO_CHAT) && <WhatsAppDemo navigate={navigate} demoConfig={globalDemoConfig} />}
                 {isPathMatch(routes.DEMO_MEDSHIFT) && <MedshiftDemo navigate={navigate} />}
+                {isPathMatch(routes.LANDING_EMMA) && <EmmaLanding navigate={navigate} />}
                 {isPathMatch(routes.TERMS) && <Terms />}
                 {isPathMatch(routes.PRIVACY) && <Privacy />}
                 {isPathMatch(routes.DATA_DELETION) && <DataDeletion />}
@@ -1068,42 +1078,44 @@ export default function App() {
             </main>
 
             {/* FOOTER GLOBAL */}
-            <footer className="border-t border-white/5 bg-black/40 backdrop-blur-md pt-16 pb-8 relative z-10">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                        <div className="col-span-1 md:col-span-2">
-                            <span className="font-extrabold text-2xl tracking-tighter text-white block mb-6">
-                                {companyData.name.split(' ')[0]}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-normal"> {companyData.name.split(' ').slice(1).join(' ')}</span>
-                            </span>
-                            <p className="text-slate-400 font-light max-w-sm leading-relaxed">
-                                {companyData.footerDescription}
+            {!isSqueezePage && (
+                <footer className="border-t border-white/5 bg-black/40 backdrop-blur-md pt-16 pb-8 relative z-10">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                            <div className="col-span-1 md:col-span-2">
+                                <span className="font-extrabold text-2xl tracking-tighter text-white block mb-6">
+                                    {companyData.name.split(' ')[0]}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-normal"> {companyData.name.split(' ').slice(1).join(' ')}</span>
+                                </span>
+                                <p className="text-slate-400 font-light max-w-sm leading-relaxed">
+                                    {companyData.footerDescription}
+                                </p>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold text-white tracking-widest uppercase text-xs mb-6">Navegación</h4>
+                                <ul className="space-y-4 text-sm font-light text-slate-400">
+                                    <li><button onClick={() => navigate(routes.HOME)} className="hover:text-white transition-colors">Inicio</button></li>
+                                    <li><button onClick={() => navigate(routes.PRODUCTS)} className="hover:text-white transition-colors">Portafolio Tecnológico</button></li>
+                                    <li><button onClick={() => navigate(routes.DIAGNOSTIC)} className="hover:text-white transition-colors flex items-center"><Sparkles className="w-3 h-3 mr-1.5 text-blue-400" /> Hablar con EMMA</button></li>
+                                    <li><button onClick={() => navigate(routes.CONTACT)} className="hover:text-white transition-colors">Ventas y Contacto</button></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold text-white tracking-widest uppercase text-xs mb-6">Seguridad Legal</h4>
+                                <ul className="space-y-4 text-sm font-light text-slate-400">
+                                    <li><button onClick={() => navigate(routes.TERMS)} className="hover:text-white transition-colors flex items-center"><FileText className="h-4 w-4 mr-2 opacity-50" /> Términos de Servicio</button></li>
+                                    <li><button onClick={() => navigate(routes.PRIVACY)} className="hover:text-white transition-colors flex items-center"><ShieldCheck className="h-4 w-4 mr-2 opacity-50" /> Privacidad y Datos</button></li>
+                                    <li><button onClick={() => navigate(routes.DATA_DELETION)} className="hover:text-white transition-colors flex items-center text-white font-medium"><Database className="h-4 w-4 mr-2 text-blue-400" /> Eliminación de Datos</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                            <p className="text-xs text-slate-600 font-light uppercase tracking-wider">
+                                &copy; {companyData.copyrightYear} {companyData.name}. Todos los derechos reservados.
                             </p>
                         </div>
-                        <div>
-                            <h4 className="font-semibold text-white tracking-widest uppercase text-xs mb-6">Navegación</h4>
-                            <ul className="space-y-4 text-sm font-light text-slate-400">
-                                <li><button onClick={() => navigate(routes.HOME)} className="hover:text-white transition-colors">Inicio</button></li>
-                                <li><button onClick={() => navigate(routes.PRODUCTS)} className="hover:text-white transition-colors">Portafolio Tecnológico</button></li>
-                                <li><button onClick={() => navigate(routes.DIAGNOSTIC)} className="hover:text-white transition-colors flex items-center"><Sparkles className="w-3 h-3 mr-1.5 text-blue-400" /> Hablar con EMMA</button></li>
-                                <li><button onClick={() => navigate(routes.CONTACT)} className="hover:text-white transition-colors">Ventas y Contacto</button></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className="font-semibold text-white tracking-widest uppercase text-xs mb-6">Seguridad Legal</h4>
-                            <ul className="space-y-4 text-sm font-light text-slate-400">
-                                <li><button onClick={() => navigate(routes.TERMS)} className="hover:text-white transition-colors flex items-center"><FileText className="h-4 w-4 mr-2 opacity-50" /> Términos de Servicio</button></li>
-                                <li><button onClick={() => navigate(routes.PRIVACY)} className="hover:text-white transition-colors flex items-center"><ShieldCheck className="h-4 w-4 mr-2 opacity-50" /> Privacidad y Datos</button></li>
-                                <li><button onClick={() => navigate(routes.DATA_DELETION)} className="hover:text-white transition-colors flex items-center text-white font-medium"><Database className="h-4 w-4 mr-2 text-blue-400" /> Eliminación de Datos</button></li>
-                            </ul>
-                        </div>
                     </div>
-                    <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-xs text-slate-600 font-light uppercase tracking-wider">
-                            &copy; {companyData.copyrightYear} {companyData.name}. Todos los derechos reservados.
-                        </p>
-                    </div>
-                </div>
-            </footer>
+                </footer>
+            )}
 
         </div>
     );
