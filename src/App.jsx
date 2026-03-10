@@ -916,7 +916,7 @@ const DataDeletion = () => (
 
 // --- ESTRUCTURA PRINCIPAL (LAYOUT & ROUTER) ---
 export default function App() {
-    const [currentPath, setCurrentPath] = useState(routes.HOME);
+    const [currentPath, setCurrentPath] = useState(window.location.pathname || routes.HOME);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [globalDemoConfig, setGlobalDemoConfig] = useState(null);
 
