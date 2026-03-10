@@ -33,12 +33,66 @@ const Reveal = ({ children, delay = 0, className = "" }) => {
     );
 };
 
+const chatSimulations = [
+    {
+        messages: [
+            "Hola, me interesa agendar una cita para cotizar un plan corporativo.",
+            "¿Hola? Necesitaba definir esto hoy mismo para la junta gerencial.",
+            "Dejen así, acabo de cerrar contrato con la competencia."
+        ],
+        badge: "Venta de alto valor perdida (Lentitud en respuestas)",
+        badgeColor: "bg-red-500/20 text-red-300 border-red-500/30",
+        glow: "rgba(239, 68, 68, 0.05)" // Red glow
+    },
+    {
+        messages: [
+            "Hola, ¿dónde están ubicados?",
+            "¿Tienen citas de valoración para mañana?",
+            "¿Cuáles son sus métodos de pago?"
+        ],
+        badge: "Tiempo humano desperdiciado (Consultas repetitivas)",
+        badgeColor: "bg-orange-500/20 text-orange-300 border-orange-500/30",
+        glow: "rgba(249, 115, 22, 0.05)" // Orange glow
+    },
+    {
+        messages: [
+            "Domingo 03:15 AM - Se cayó mi servidor, necesito soporte urgente.",
+            "Domingo 03:45 AM - ¿Hola? ¡Estamos perdiendo ventas!",
+            "Auto-respuesta: Nuestro horario de atención es de L-V."
+        ],
+        badge: "Cliente frustrado (Atención pausada por horario)",
+        badgeColor: "bg-purple-500/20 text-purple-300 border-purple-500/30",
+        glow: "rgba(168, 85, 247, 0.05)" // Purple glow
+    }
+];
+
 export default function EmmaLanding({ navigate }) {
+
+    const [activeSimIndex, setActiveSimIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveSimIndex((prev) => (prev + 1) % chatSimulations.length);
+        }, 5000); // Cycle every 5 seconds
+        return () => clearInterval(interval);
+    }, []);
 
     // Smooth scroll para el CTA de agendamiento (si decidimos bajarlo a contacto)
     const scrollToBottom = () => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     };
+
+    const mailtoSubject = encodeURIComponent("Agendar Consultoría para EMMA ServiceOps");
+    const mailtoBody = encodeURIComponent(`Hola equipo de JTECH,
+
+Me gustaría agendar una breve consultoría para conocer más sobre EMMA ServiceOps y cómo puede ayudar a automatizar nuestro servicio al cliente.
+
+Mis datos de contacto son:
+- Nombre: [Escribe tu Nombre]
+- Empresa: [Escribe tu Empresa]
+- Teléfono: [Escribe tu WhatsApp]
+
+Quedo atento(a), gracias.`);
 
     return (
         <div className="min-h-screen bg-[#030712] font-sans text-slate-300 selection:bg-purple-500/30 selection:text-white relative overflow-hidden">
@@ -87,7 +141,7 @@ export default function EmmaLanding({ navigate }) {
                     </button>
                     {/* Secondary CTA goes to mailto for fast booking */}
                     <a
-                        href={`mailto:${companyData.contactEmail}?subject=Agendar Consultoría para EMMA ServiceOps`}
+                        href={`mailto:${companyData.contactEmail}?subject=${mailtoSubject}&body=${mailtoBody}`}
                         className="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-medium text-lg px-8 py-4 rounded-full transition-all duration-300 flex items-center justify-center"
                     >
                         {emmaLandingData.hero.secondaryCta}
@@ -131,21 +185,35 @@ export default function EmmaLanding({ navigate }) {
                     </Reveal>
 
                     <Reveal className="lg:w-1/2 w-full" delay={200}>
-                        <div className="bg-gradient-to-br from-slate-900 to-black border border-white/10 rounded-2xl p-8 relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-red-500/5 group-hover:bg-red-500/10 transition-colors"></div>
-                            {/* Mockup de Chat Fallando (Humano saturado) */}
-                            <div className="space-y-4 relative z-10 opacity-70">
-                                <div className="bg-slate-800 rounded-2xl rounded-tl-none p-4 max-w-[80%] float-left">
-                                    <p className="text-sm text-slate-300">¿En cuánto tiempo envían mi pedido N°-8439?</p>
-                                </div>
-                                <div className="clear-both"></div>
-                                <div className="bg-slate-800 rounded-2xl rounded-tl-none p-4 max-w-[80%] float-left">
-                                    <p className="text-sm text-slate-300">Tengo un error en el portal de proveedores, nadie me responde hace 3 horas.</p>
-                                </div>
-                                <div className="clear-both"></div>
-                                <div className="bg-red-500/20 text-red-300 text-xs font-semibold py-2 px-4 rounded-full mx-auto w-fit mt-4 border border-red-500/30">
-                                    Cola de atención humana saturada (45+ en espera)
-                                </div>
+                        <div className="bg-gradient-to-br from-slate-900 to-black border border-white/10 rounded-2xl relative overflow-hidden group h-[380px] flex items-center shadow-2xl">
+                            {/* Glow estelar animado basado en la simulación activa */}
+                            <div
+                                className="absolute inset-0 transition-colors duration-1000"
+                                style={{ backgroundColor: chatSimulations[activeSimIndex].glow }}
+                            ></div>
+
+                            <div className="relative z-10 w-full px-4 sm:px-8">
+                                {chatSimulations.map((sim, index) => (
+                                    <div
+                                        key={index}
+                                        className={`absolute w-full left-0 px-4 sm:px-8 top-1/2 transition-all duration-700 ease-in-out ${activeSimIndex === index ? 'opacity-100 translate-y-[-50%] z-10 scale-100' : 'opacity-0 translate-y-[-40%] pointer-events-none z-0 scale-95'
+                                            }`}
+                                    >
+                                        <div className="space-y-4 opacity-90">
+                                            {sim.messages.map((msg, mIdx) => (
+                                                <div key={mIdx} className="clear-both">
+                                                    <div className="bg-slate-800/80 backdrop-blur-sm shadow-xl rounded-2xl rounded-tl-none p-4 max-w-[90%] float-left border border-white/5">
+                                                        <p className="text-sm text-slate-200">{msg}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            <div className="clear-both"></div>
+                                            <div className={`text-xs font-semibold py-2 px-4 rounded-full mx-auto w-fit mt-6 border shadow-lg ${sim.badgeColor}`}>
+                                                {sim.badge}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </Reveal>
