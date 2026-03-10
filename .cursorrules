@@ -1,0 +1,3 @@
+# Reglas del Agente (Antigravity)
+
+1. **Gestión de Versiones (Git):** NUNCA ejecutes el comando `git commit` ni `git push` de forma proactiva o automática, a menos que el usuario lo solicite de manera explícita y directa en el chat. Todo cambio debe mantenerse en el entorno local (working directory) hasta recibir aprobación para hacer commit.
