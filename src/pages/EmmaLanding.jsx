@@ -73,7 +73,7 @@ export default function EmmaLanding({ navigate }) {
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveSimIndex((prev) => (prev + 1) % chatSimulations.length);
-        }, 5000); // Cycle every 5 seconds
+        }, 8500); // Cycle every 8.5 seconds
         return () => clearInterval(interval);
     }, []);
 
@@ -199,16 +199,16 @@ Quedo atento(a), gracias.`);
                                         className={`absolute w-full left-0 px-4 sm:px-8 top-1/2 transition-all duration-700 ease-in-out ${activeSimIndex === index ? 'opacity-100 translate-y-[-50%] z-10 scale-100' : 'opacity-0 translate-y-[-40%] pointer-events-none z-0 scale-95'
                                             }`}
                                     >
-                                        <div className="space-y-4 opacity-90">
+                                        <div className="space-y-6 opacity-90 w-full flex flex-col mt-4">
                                             {sim.messages.map((msg, mIdx) => (
-                                                <div key={mIdx} className="clear-both">
-                                                    <div className="bg-slate-800/80 backdrop-blur-sm shadow-xl rounded-2xl rounded-tl-none p-4 max-w-[90%] float-left border border-white/5">
-                                                        <p className="text-sm text-slate-200">{msg}</p>
+                                                <div key={mIdx} className="clear-both w-full">
+                                                    <div className="bg-slate-800/80 backdrop-blur-sm shadow-xl rounded-2xl rounded-tl-none px-5 py-4 max-w-[85%] float-left border border-white/5">
+                                                        <p className="text-[15px] font-light tracking-wide text-slate-200">{msg}</p>
                                                     </div>
                                                 </div>
                                             ))}
                                             <div className="clear-both"></div>
-                                            <div className={`text-xs font-semibold py-2 px-4 rounded-full mx-auto w-fit mt-6 border shadow-lg ${sim.badgeColor}`}>
+                                            <div className={`text-xs font-semibold py-2.5 px-5 rounded-full mx-auto w-fit mt-8 border shadow-lg ${sim.badgeColor}`}>
                                                 {sim.badge}
                                             </div>
                                         </div>
