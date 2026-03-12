@@ -29,6 +29,7 @@ export const seoData = {
 
 export const companyData = {
     name: "JTECH AI SOLUTIONS",
+    legalName: "JTECH AI SOLUTIONS SAS",
     shortName: "JTECH AI",
     contactEmail: "ventas@jtsoluciones.com",
     privacyEmail: "privacidad@jtsoluciones.com",
