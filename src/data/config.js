@@ -29,7 +29,7 @@ export const seoData = {
 
 export const companyData = {
     name: "JTECH AI SOLUTIONS",
-    legalName: "JTECH AI SOLUTIONS SAS",
+    legalName: "JTECH AI SOLUTIONS S.A.S.",
     shortName: "JTECH AI",
     contactEmail: "ventas@jtsoluciones.com",
     privacyEmail: "privacidad@jtsoluciones.com",
