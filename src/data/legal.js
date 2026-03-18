@@ -1,6 +1,6 @@
 export const termsData = {
     title: "Términos y Condiciones",
-    lastUpdated: "08 de Marzo, 2026",
+    lastUpdated: "17 de Marzo, 2026",
     legalNote: "Nota legal: Este documento es informativo. Para cualquier servicio, implementación, suscripción o proyecto de JTECH AI SOLUTIONS S.A.S., prevalecen la propuesta comercial, el contrato y los anexos firmados entre las partes.",
     sections: [
         {
@@ -43,7 +43,7 @@ export const termsData = {
 
 export const privacyData = {
     title: "Política de Privacidad",
-    lastUpdated: "08 de Marzo, 2026",
+    lastUpdated: "17 de Marzo, 2026",
     sections: [
         {
             title: "1. Identidad del responsable",
@@ -105,7 +105,7 @@ export const privacyData = {
 
 export const dataDeletionData = {
     title: "Eliminación de Datos",
-    lastUpdated: "08 de Marzo, 2026",
+    lastUpdated: "17 de Marzo, 2026",
     intro: [
         "JTECH AI SOLUTIONS S.A.S. dispone de un canal para solicitar la eliminación de datos personales, conforme a la normativa aplicable y a las limitaciones legales, contractuales o técnicas que correspondan."
     ],
