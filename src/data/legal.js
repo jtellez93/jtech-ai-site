@@ -1,7 +1,7 @@
 export const termsData = {
     title: "Términos y Condiciones",
     lastUpdated: "08 de Marzo, 2026",
-    legalNote: "Nota legal: Este documento es informativo. Para cualquier servicio, implementación, suscripción o proyecto de JTECH AI SOLUTIONS, prevalecen la propuesta comercial, el contrato y los anexos firmados entre las partes.",
+    legalNote: "Nota legal: Este documento es informativo. Para cualquier servicio, implementación, suscripción o proyecto de JTECH AI SOLUTIONS S.A.S., prevalecen la propuesta comercial, el contrato y los anexos firmados entre las partes.",
     sections: [
         {
             title: "1. Alcance de los servicios",
@@ -46,7 +46,7 @@ export const privacyData = {
         {
             title: "1. Identidad del responsable",
             content: [
-                "JTECH AI SOLUTIONS actúa como responsable del tratamiento de los datos personales recolectados a través de este sitio web y de sus canales comerciales, operativos y de soporte.",
+                "JTECH AI SOLUTIONS S.A.S. actúa como responsable del tratamiento de los datos personales recolectados a través de este sitio web y de sus canales comerciales, operativos y de soporte.",
                 "Información societaria: JTECH AI SOLUTIONS S.A.S., NIT 902044227-6, sociedad por acciones simplificada de naturaleza comercial, con domicilio principal en Cali, Colombia."
             ]
         },
@@ -105,7 +105,7 @@ export const dataDeletionData = {
     title: "Eliminación de Datos",
     lastUpdated: "08 de Marzo, 2026",
     intro: [
-        "JTECH AI SOLUTIONS dispone de un canal para solicitar la eliminación de datos personales, conforme a la normativa aplicable y a las limitaciones legales, contractuales o técnicas que correspondan."
+        "JTECH AI SOLUTIONS S.A.S. dispone de un canal para solicitar la eliminación de datos personales, conforme a la normativa aplicable y a las limitaciones legales, contractuales o técnicas que correspondan."
     ],
     sections: [
         {
