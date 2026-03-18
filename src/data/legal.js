@@ -7,26 +7,26 @@ export const termsData = {
             title: "1. Alcance de los servicios",
             content: [
                 "El alcance de cada servicio o implementación será el definido en la propuesta comercial o documento aprobado por el Cliente. Cualquier ajuste, integración adicional o ampliación de alcance podrá cotizarse por separado.",
-                "Salvo indicación distinta, las propuestas y condiciones comerciales emitidas por JTECH tienen una vigencia de 15 días calendario desde su fecha de emisión."
+                "Salvo indicación distinta, las propuestas y condiciones comerciales emitidas por JTECH AI SOLUTIONS S.A.S. tienen una vigencia de 15 días calendario desde su fecha de emisión."
             ]
         },
         {
             title: "2. Propiedad intelectual y uso",
             content: [
-                "JTECH conserva la propiedad intelectual sobre sus productos, componentes, arquitectura, software base, documentación y activos reutilizables. El Cliente recibe una licencia de uso limitada, no exclusiva e intransferible sobre los servicios o productos contratados, sujeta a la vigencia de la relación comercial y al cumplimiento de las condiciones pactadas."
+                "JTECH AI SOLUTIONS S.A.S. conserva la propiedad intelectual sobre sus productos, componentes, arquitectura, software base, documentación y activos reutilizables. El Cliente recibe una licencia de uso limitada, no exclusiva e intransferible sobre los servicios o productos contratados, sujeta a la vigencia de la relación comercial y al cumplimiento de las condiciones pactadas."
             ]
         },
         {
             title: "3. Limitación de responsabilidad",
             content: [
-                "La responsabilidad máxima de JTECH se limitará al valor efectivamente pagado por el Cliente en los 3 meses anteriores al hecho que origine la reclamación, cuando se trate de servicios recurrentes, o al valor total del proyecto o hito afectado cuando se trate de un servicio puntual.",
-                "JTECH no responderá por daños indirectos, lucro cesante, pérdida de negocio, pérdida de ingresos, decisiones tomadas por el Cliente, ni por fallas atribuibles a terceros, infraestructura ajena o usos no soportados."
+                "La responsabilidad máxima de JTECH AI SOLUTIONS S.A.S. se limitará al valor efectivamente pagado por el Cliente en los 3 meses anteriores al hecho que origine la reclamación, cuando se trate de servicios recurrentes, o al valor total del proyecto o hito afectado cuando se trate de un servicio puntual.",
+                "JTECH AI SOLUTIONS S.A.S. no responderá por daños indirectos, lucro cesante, pérdida de negocio, pérdida de ingresos, decisiones tomadas por el Cliente, ni por fallas atribuibles a terceros, infraestructura ajena o usos no soportados."
             ]
         },
         {
             title: "4. Terminación o suspensión",
             content: [
-                "JTECH podrá suspender o dar por terminados los servicios, parcial o totalmente, en los siguientes casos:"
+                "JTECH AI SOLUTIONS S.A.S. podrá suspender o dar por terminados los servicios, parcial o totalmente, en los siguientes casos:"
             ],
             list: [
                 "Mora superior a 10 días calendario en pagos vencidos.",
@@ -46,7 +46,7 @@ export const privacyData = {
         {
             title: "1. Identidad del responsable",
             content: [
-                "JTECH AI SOLUTIONS S.A.S. actúa como responsable del tratamiento de los datos personales recolectados a través de este sitio web y de sus canales comerciales, operativos y de soporte.",
+                "JTECH AI SOLUTIONS S.A.S. actúa como responsable del tratamiento de los datos personales recolectados a través de este sitio web y de sus canales comerciales, operativos y de soporte, incluyendo la interacción a través de la API de WhatsApp y plataformas de mensajería externa.",
                 "Información societaria: JTECH AI SOLUTIONS S.A.S., NIT 902044227-6, sociedad por acciones simplificada de naturaleza comercial, con domicilio principal en Cali, Colombia."
             ]
         },
@@ -59,11 +59,11 @@ export const privacyData = {
                 "Datos de contacto corporativo, como nombre, cargo, empresa, correo empresarial y teléfono.",
                 "Información compartida voluntariamente en formularios, correos o reuniones.",
                 "Historial de comunicaciones, solicitudes y soporte.",
-                "Datos técnicos mínimos de navegación, seguridad y operación."
+                "Datos técnicos de navegación (como dirección IP, cookies y tipo de dispositivo), seguridad y operación."
             ],
             subtitle: "Principio de minimización",
             subcontent: [
-                "JTECH procura recolectar únicamente la información necesaria para sus fines comerciales, operativos y de seguridad. No solicitamos de forma ordinaria datos sensibles ni información innecesaria para la prestación del servicio."
+                "JTECH AI SOLUTIONS S.A.S. procura recolectar únicamente la información necesaria para sus fines comerciales, operativos y de seguridad. No solicitamos de forma ordinaria datos sensibles ni información innecesaria para la prestación del servicio."
             ]
         },
         {
@@ -74,7 +74,7 @@ export const privacyData = {
             list: [
                 "Atender solicitudes de contacto, diagnóstico o información comercial.",
                 "Gestionar propuestas, contratos, facturación y soporte.",
-                "Operar, asegurar y mejorar nuestros productos, servicios y canales digitales.",
+                "Operar, asegurar y mejorar nuestros productos, servicios y canales digitales, así como integrar y utilizar plataformas de mensajería de terceros, como infraestructura en la nube y la API de WhatsApp de Meta.",
                 "Cumplir obligaciones legales y contractuales aplicables."
             ],
             postContent: "Marco normativo referencial: Ley 1581 de 2012, Decreto 1074 de 2015 y directrices aplicables de la Superintendencia de Industria y Comercio de Colombia."
@@ -114,13 +114,13 @@ export const dataDeletionData = {
             orderedList: [
                 "Envía un correo a privacidad@jtsoluciones.com.",
                 "Usa como asunto: \"Solicitud de Eliminación de Datos\".",
-                "Incluye tu nombre, empresa o contexto de relación con JTECH, correo asociado y una breve descripción de la solicitud."
+                "Incluye tu nombre, empresa o contexto de relación con JTECH AI SOLUTIONS S.A.S., correo asociado y una breve descripción de la solicitud."
             ]
         },
         {
             title: "Tiempos de atención y excepciones",
             content: [
-                "Una vez recibida la solicitud y validada la identidad o legitimidad del solicitante, JTECH dará respuesta dentro de un plazo máximo de 15 días hábiles.",
+                "Una vez recibida la solicitud y validada la identidad o legitimidad del solicitante, JTECH AI SOLUTIONS S.A.S. dará respuesta dentro de un plazo máximo de 15 días hábiles.",
                 "La eliminación podrá estar sujeta a excepciones cuando exista obligación legal o contractual de conservación, registros de facturación, evidencia de cumplimiento o logs que deban mantenerse temporalmente por seguridad, auditoría o defensa jurídica."
             ]
         }
