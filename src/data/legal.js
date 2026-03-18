@@ -6,7 +6,8 @@ export const termsData = {
         {
             title: "1. Alcance de los servicios",
             content: [
-                "El alcance de cada servicio o implementación será el definido en la propuesta comercial o documento aprobado por el Cliente. Cualquier ajuste, integración adicional o ampliación de alcance podrá cotizarse por separado.",
+                "El alcance de cada servicio o implementación será el definido en la propuesta comercial o documento aprobado por el Cliente. Nuestros servicios pueden incluir el aprovisionamiento, licenciamiento o uso de agentes de IA y automatización operando a través de plataformas autorizadas de terceros, incluyendo la API de WhatsApp de Meta.",
+                "Cualquier ajuste, integración adicional o ampliación de alcance podrá cotizarse por separado.",
                 "Salvo indicación distinta, las propuestas y condiciones comerciales emitidas por JTECH AI SOLUTIONS S.A.S. tienen una vigencia de 15 días calendario desde su fecha de emisión."
             ]
         },
@@ -32,6 +33,7 @@ export const termsData = {
                 "Mora superior a 10 días calendario en pagos vencidos.",
                 "Incumplimiento material de obligaciones contractuales o de uso.",
                 "Uso indebido del servicio o acciones que comprometan la seguridad.",
+                "Incumplimiento de las políticas de comercio o de uso aceptable de plataformas de mensajería de terceros integradas (ej. Políticas de WhatsApp Business de Meta).",
                 "Riesgos operativos o de seguridad que exijan contención inmediata.",
                 "Terminación por mutuo acuerdo."
             ]
